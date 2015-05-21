@@ -14,6 +14,7 @@ use Phalcon\Mvc\Application;
 use Phalcon\Mvc\Router;
 use Phalcon\Exception;
 use Phalcon\Config\Adapter\Ini;
+use Phalcon\Session\Adapter\Files;
 
 /**
  * Class App
@@ -44,8 +45,7 @@ class App extends Application {
      */
     protected function _setLoader() {
         $commonLoader = new Loader();
-        $commonLoader->registerNamespaces(
-            array(
+        $commonLoader->registerNamespaces(array(
                 'library' => __DIR__.'/../library/'
             )
         );
@@ -62,14 +62,35 @@ class App extends Application {
             $router = new Router();
             $router->setDefaultModule('site');
 
+            $router->add('/admin',array(
+                'module' => 'admin',
+                'controller' => 'index',
+                'action' => 'index'
+            ));
+
             $router->add('/admin/login',array(
                 'module' => 'admin',
                 'controller' => 'login',
                 'action' => 'index'
             ));
 
+            $router->add('/admin/:controller/:action/:param',array(
+                'module' => 'admin',
+                'controller' => 1,
+                'action' => 2,
+                'params' => 3,
+            ));
+
+
             return $router;
         });
+
+        $di->setShared('session', function() {
+            $session = new Files();
+            $session->start();
+            return $session;
+        });
+
         $this->setDI($di);
     }
 
