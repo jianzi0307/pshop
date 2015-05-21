@@ -1,0 +1,43 @@
+--
+-- 建立外键关系
+--
+ALTER TABLE `{pre}bill` ADD foreign key(seller_id) references `{pre}seller`(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE `{pre}withdraw` ADD foreign key(user_id) references `{pre}user`(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE `{pre}suggestion` ADD foreign key(user_id) references `{pre}user`(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE `{pre}relation` ADD foreign key(goods_id) references `{pre}goods`(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE `{pre}relation` ADD foreign key(article_id) references `{pre}article`(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE `{pre}regiment_user_relation` ADD foreign key(regiment_id) references `{pre}regiment`(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE `{pre}regiment` ADD foreign key(goods_id) references `{pre}goods`(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE `{pre}refundment_doc` ADD foreign key(order_id) references `{pre}order`(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE `{pre}refer` ADD foreign key(goods_id) references `{pre}goods`(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE `{pre}quick_naviga` ADD foreign key(admin_id) references `{pre}admin`(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE `{pre}oauth_user` ADD foreign key(user_id) references `{pre}user`(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE `{pre}online_recharge` ADD foreign key(user_id) references `{pre}user`(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE `{pre}products` ADD foreign key(goods_id) references `{pre}goods`(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE `{pre}point_log` ADD foreign key(user_id) references `{pre}user`(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE `{pre}order_log` ADD foreign key(order_id) references `{pre}order`(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE `{pre}order_goods` ADD foreign key(order_id) references `{pre}order`(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE `{pre}notify_registry` ADD  foreign key(user_id) references `{pre}user`(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE `{pre}notify_registry` ADD  foreign key(goods_id) references `{pre}goods`(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE `{pre}member` ADD foreign key(user_id) references `{pre}user`(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE `{pre}help` ADD foreign key(cat_id) references `{pre}help_category`(id);
+ALTER TABLE `{pre}group_price` ADD foreign key(goods_id) references `{pre}goods`(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE `{pre}group_price` ADD foreign key(group_id) references `{pre}user_group`(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE `{pre}goods_photo_relation` ADD foreign key(goods_id) references `{pre}goods`(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE `{pre}goods_car` ADD foreign key(user_id) references `{pre}user`(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE `{pre}goods_attribute` ADD foreign key(goods_id) references `{pre}goods`(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE `{pre}favorite` ADD FOREIGN KEY (user_id) REFERENCES `{pre}user`(id) on delete cascade on update cascade;
+ALTER TABLE `{pre}favorite` ADD FOREIGN KEY (rid) REFERENCES `{pre}goods`(id) on delete cascade on update cascade;
+ALTER TABLE `{pre}discussion` ADD FOREIGN KEY (goods_id) REFERENCES `{pre}goods`(id) on delete cascade on update cascade;
+ALTER TABLE `{pre}delivery_doc` ADD FOREIGN KEY (freight_id) REFERENCES `{pre}freight_company`(id);
+ALTER TABLE `{pre}delivery_doc` ADD FOREIGN KEY (order_id) REFERENCES `{pre}order`(id) on delete cascade on update cascade;
+ALTER TABLE `{pre}comment` ADD foreign key(goods_id) references `{pre}goods`(id) on delete cascade on update cascade;
+ALTER TABLE `{pre}commend_goods` ADD foreign key(goods_id) references `{pre}goods`(id) on delete cascade on update cascade;
+ALTER TABLE `{pre}collection_doc` ADD foreign key(order_id) references `{pre}order`(id) on delete cascade on update cascade;
+ALTER TABLE `{pre}category_extend` ADD  foreign key(goods_id) references `{pre}goods`(id) on delete cascade on update cascade;
+ALTER TABLE `{pre}category_extend` ADD  foreign key(category_id) references `{pre}category`(id) on delete cascade on update cascade;
+ALTER TABLE `{pre}find_password` ADD foreign key(user_id) references `{pre}user`(id) on delete cascade on update cascade;
+ALTER TABLE `{pre}account_log` ADD foreign key(user_id) references `{pre}user`(id);
+ALTER TABLE `{pre}address` ADD foreign key(user_id) references `{pre}user`(id) on delete cascade on update cascade;
+ALTER TABLE `{pre}ad_manage` ADD foreign key(position_id) references `{pre}ad_position`(id);
+ALTER TABLE `{pre}attribute` ADD foreign key(model_id) references `{pre}model`(id) on delete cascade on update cascade;
