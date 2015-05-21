@@ -4,3 +4,5 @@
 1、模块Module.php实现ModuleDefinitionInterface接口
 
 2、为模块注册加载器，为模块装载服务组件
+
+3、
