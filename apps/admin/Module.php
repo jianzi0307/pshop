@@ -14,6 +14,7 @@ use Phalcon\Loader;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 use Phalcon\Mvc\View;
+use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 
 class Module implements ModuleDefinitionInterface{
     /**
@@ -50,9 +51,26 @@ class Module implements ModuleDefinitionInterface{
         $di->set('view', function() {
             $view = new View();
             $view->setViewsDir(__DIR__ . '/views/default/');
-            //$view->setLayoutsDir('../../common/layouts/');
+            //$view->setLayoutsDir('layouts/');
             //$view->setTemplateAfter('main');
+            $view->registerEngines(array(
+                ".phtml" => 'volt'
+            ));
             return $view;
         });
+
+        /**
+         * 安装volt模板引擎
+         */
+        $di->set('volt', function($view, $di) {
+            $volt = new VoltEngine($view, $di);
+            $volt->setOptions(array(
+                "compiledPath" =>  __DIR__."/../../cache/volt/"
+            ));
+            $compiler = $volt->getCompiler();
+            $compiler->addFunction('is_a', 'is_a');
+            return $volt;
+        }, true);
+
     }
 }

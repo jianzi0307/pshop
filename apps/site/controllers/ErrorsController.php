@@ -20,4 +20,11 @@ class ErrorsController extends Controller {
         $this->view->setVar("error", $error);
         $this->view->render('errors','show500');
     }
+
+    /**
+     * Page Not Found 404
+     */
+    public function show404Action() {
+        echo '404 --- Page Not Found';
+    }
 }

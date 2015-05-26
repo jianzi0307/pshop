@@ -15,8 +15,7 @@ use Phalcon\Logger;
 use Phalcon\Mvc\Controller;
 
 class IndexController extends Controller{
-    public function indexAcion() {
-
+    public function indexAction() {
         //测试日志
         LogUtil::ins()->info('info_pay_order.log','支付成功');
 
@@ -33,5 +32,10 @@ class IndexController extends Controller{
         LogUtil::ins()->warn('warn_pay_order.log',$logs);
 
         $this->view->disable();
+    }
+
+    public function testAction() {
+        $ini_file = parse_ini_file('t.ini',true);
+        print_r($ini_file);
     }
 }

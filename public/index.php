@@ -13,7 +13,6 @@ use Phalcon\Loader;
 use Phalcon\Mvc\Application;
 use Phalcon\Mvc\Router;
 use Phalcon\Exception;
-use Phalcon\Config\Adapter\Ini;
 use Phalcon\Session\Adapter\Files;
 
 /**
@@ -27,7 +26,7 @@ class App extends Application {
      * 配置
      * @param Ini $config
      */
-    public function setConfig(Ini $config) {
+    public function setConfig($config) {
         $this->config = $config;
     }
 
@@ -62,6 +61,12 @@ class App extends Application {
             $router = new Router();
             $router->setDefaultModule('site');
 
+            $router->add('/',array(
+                'module' => 'site',
+                'controller' => 'index',
+                'action' => 'index'
+            ));
+
             $router->add('/admin',array(
                 'module' => 'admin',
                 'controller' => 'index',
@@ -74,13 +79,17 @@ class App extends Application {
                 'action' => 'index'
             ));
 
-            $router->add('/admin/:controller/:action/:param',array(
+            $router->add('/admin/:controller/:action/:params',array(
                 'module' => 'admin',
                 'controller' => 1,
                 'action' => 2,
                 'params' => 3,
             ));
 
+            $router->notFound(array(
+                "controller" => "errors",
+                "action"     => "show404"
+            ));
 
             return $router;
         });
@@ -90,6 +99,28 @@ class App extends Application {
             $session->start();
             return $session;
         });
+
+        // MySQL master
+        $config = $this->config;
+        $di->set('dbMaster', function () use ($config) {
+            return new DbAdapter(array(
+                'host' => $config->mysql_master->host,
+                'username' => $config->mysql_master->username,
+                'password' => $config->mysql_master->password,
+                'dbname' => $config->mysql_master->dbname
+            ));
+        });
+        // MySQL slave
+        $di->set('dbSlave', function () use ($config) {
+            $slaveName = 'mysql_slave' . (String)rand(1, $config->mysql_slave_count);
+            return new DbAdapter(array(
+                'host' => $config[$slaveName]['host'],
+                'username' => $config[$slaveName]['username'],
+                'password' => $config[$slaveName]['password'],
+                'dbname' => $config[$slaveName]['dbname']
+            ));
+        });
+
 
         $this->setDI($di);
     }
@@ -133,7 +164,8 @@ class App extends Application {
     }
 }
 
-$config = new Ini('../config/config.ini');
+$settings = require_once('../config/config.php');
+$config = new \Phalcon\Config($settings);
 $application = new App();
 $application->setConfig($config);
 $application->startup();

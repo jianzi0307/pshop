@@ -15,5 +15,10 @@ use Phalcon\Mvc\Controller;
 class IndexController extends Controller{
 
     public function indexAction() {
+        //$this->view->render('index','index');
+    }
+
+    public function loginAction() {
+
     }
 }
