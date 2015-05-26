@@ -10,15 +10,9 @@
  */
 namespace apps\admin\controllers;
 
-use Phalcon\Mvc\Controller;
-
-class IndexController extends Controller{
+class IndexController extends ControllerBase{
 
     public function indexAction() {
         //$this->view->render('index','index');
-    }
-
-    public function loginAction() {
-
     }
 }
