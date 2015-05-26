@@ -16,6 +16,7 @@ use Phalcon\Mvc\Controller;
 
 class IndexController extends Controller{
     public function indexAction() {
+        echo "site/index/index";
         //测试日志
         LogUtil::ins()->info('info_pay_order.log','支付成功');
 

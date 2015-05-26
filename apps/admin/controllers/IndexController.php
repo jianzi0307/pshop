@@ -14,5 +14,6 @@ class IndexController extends ControllerBase{
 
     public function indexAction() {
         //$this->view->render('index','index');
+        echo "index";
     }
 }
