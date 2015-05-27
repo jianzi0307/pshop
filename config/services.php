@@ -71,7 +71,6 @@ $di->set('dispatcher', function() use ($di) {
 /**
  * 数据库配置
  */
-
 //写库
 $di->set('dbMaster', function () use ($config) {
     return new DbAdapter(array(

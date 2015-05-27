@@ -2,8 +2,8 @@
 adapter  = Mysql
 host     = "127.0.0.1"
 username = "root"
-password = "111"
-dbname   = "db_iwebshop"
+password = "111111"
+dbname   = "app_shop"
 
 [phalcon]
 controllersDir = "../apps/admin/controllers/"

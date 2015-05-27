@@ -30,10 +30,10 @@ a:15:{i:0;s:250:"<!DOCTYPE html>
 ";s:12:"page_content";a:3:{i:0;a:4:{s:4:"type";i:357;s:5:"value";s:1:"
 ";s:4:"file";s:89:"/Users/jianzi0307/Development/PHPWorkSpace/pshop/apps/admin/views/default/base/base.phtml";s:4:"line";i:31;}i:1;a:4:{s:4:"type";i:359;s:4:"expr";a:4:{s:4:"type";i:350;s:4:"name";a:4:{s:4:"type";i:265;s:5:"value";s:7:"content";s:4:"file";s:89:"/Users/jianzi0307/Development/PHPWorkSpace/pshop/apps/admin/views/default/base/base.phtml";s:4:"line";i:31;}s:4:"file";s:89:"/Users/jianzi0307/Development/PHPWorkSpace/pshop/apps/admin/views/default/base/base.phtml";s:4:"line";i:31;}s:4:"file";s:89:"/Users/jianzi0307/Development/PHPWorkSpace/pshop/apps/admin/views/default/base/base.phtml";s:4:"line";i:32;}i:2;a:4:{s:4:"type";i:357;s:5:"value";s:1:"
 ";s:4:"file";s:89:"/Users/jianzi0307/Development/PHPWorkSpace/pshop/apps/admin/views/default/base/base.phtml";s:4:"line";i:32;}}i:5;s:1:"
-";s:9:"copyright";a:1:{i:0;a:4:{s:4:"type";i:357;s:5:"value";s:132:"
+";s:9:"copyright";a:1:{i:0;a:4:{s:4:"type";i:357;s:5:"value";s:112:"
 <!-- BEGIN COPYRIGHT -->
 <div class="copyright">
-    2013 &copy; Metronic. Admin Dashboard Template.
+    &copy;2015 Admin Dashboard.
 </div>
 <!-- END COPYRIGHT -->
 ";s:4:"file";s:89:"/Users/jianzi0307/Development/PHPWorkSpace/pshop/apps/admin/views/default/base/base.phtml";s:4:"line";i:39;}}i:6;s:903:"
