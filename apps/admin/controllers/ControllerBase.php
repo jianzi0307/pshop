@@ -32,4 +32,8 @@ class ControllerBase extends Controller{
             )
         );
     }
+
+    protected function illegal() {
+        return $this->response->setJsonContent(array("errno"=>-1,"errmsg"=>"illegal request!"));
+    }
 }

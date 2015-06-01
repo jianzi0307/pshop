@@ -7,12 +7,13 @@
     <orderEntry type="module-library">
       <library name="PHP">
         <CLASSES>
-          <root url="file://D:/phalcon-tools/ide/2.0.0" />
+          <root url="file:///usr/local/phalcon-tools/ide/2.0.0" />
         </CLASSES>
         <SOURCES>
-          <root url="file://D:/phalcon-tools/ide/2.0.0" />
+          <root url="file:///usr/local/phalcon-tools/ide/2.0.0" />
         </SOURCES>
       </library>
     </orderEntry>
   </component>
 </module>
+

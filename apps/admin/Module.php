@@ -51,8 +51,8 @@ class Module implements ModuleDefinitionInterface{
         $di->set('view', function() {
             $view = new View();
             $view->setViewsDir(__DIR__ . '/views/default/');
-            //$view->setLayoutsDir('layouts/');
-            //$view->setTemplateAfter('main');
+            $view->setLayoutsDir('layouts/');
+            $view->setTemplateAfter('main');
             $view->registerEngines(array(
                 ".phtml" => 'volt'
             ));

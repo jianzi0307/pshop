@@ -48,4 +48,4 @@ $settings = array_merge(
     array('mysql_slave_count' => count($mysqlSlaves))
 );
 
-return $settings;
+return new \Phalcon\Config($settings);
