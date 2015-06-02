@@ -11,7 +11,23 @@
 
 namespace library;
 
+require_once dirname(__FILE__) . '/Mobile_Detect.php';
 
-class MobileDetect {
+/**
+ * 设备检测类
+ * Class MobileDetect
+ * @package library
+ */
+class MobileDetect extends \Mobile_Detect {
 
+    /**
+     * 是否微信
+     * @return bool
+     */
+    public function isWechat() {
+        if( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false ) {
+            return true;
+        }
+        return false;
+    }
 }

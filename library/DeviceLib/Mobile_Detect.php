@@ -24,7 +24,6 @@
  *
  * @version     2.8.13
  */
-
 class Mobile_Detect
 {
     /**
