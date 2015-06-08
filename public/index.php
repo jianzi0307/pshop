@@ -25,6 +25,11 @@ try {
     $config = new \Phalcon\Config\Adapter\Ini(__DIR__.'/../config/config.ini');
 
     /**
+     * vendor
+     */
+    include __DIR__ . "/../vendor/autoload.php";
+
+    /**
      * 注册加载器
      */
     $loader = new Loader();

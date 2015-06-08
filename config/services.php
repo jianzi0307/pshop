@@ -108,3 +108,7 @@ $di->set('session_component', function(){
     return new \library\Components\SessionComponent();
 });
 
+$di->set('cookie_component',function(){
+    return new \library\Components\CookieComponent();
+});
+
