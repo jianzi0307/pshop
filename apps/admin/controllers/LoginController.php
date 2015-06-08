@@ -14,11 +14,26 @@ namespace apps\admin\controllers;
 
 use apps\admin\models\AppAdmin;
 use library\EncryptLib\Rsa;
+use library\SmsLib\SmsEntinfo\EntinfoSms;
 use library\TimeUtil;
 
 class LoginController extends ControllerBase {
 
     public function indexAction() {}
+
+    public function smsAction() {
+        $sms = new EntinfoSms();
+        $sms->setConf( array(
+            'sn' => 'SDK-BBX-010-22217',
+            'password' => '13022',
+            'ext' => '',
+            'rrid' => '',
+            'stime' => '',
+            'appName' => '多美淘'
+        ));
+        $res = $sms->send('18853002966','hellow');
+        $this->view->disable();
+    }
 
     public function testAction() {
         $rsa = new Rsa();
