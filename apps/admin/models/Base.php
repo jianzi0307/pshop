@@ -12,6 +12,7 @@ namespace apps\admin\models;
 use Phalcon\Mvc\Model;
 
 class Base extends Model {
+    /*
     public function initialize() {
         $this->setReadConnectionService('dbSlave');
         $this->setWriteConnectionService('dbMaster');
@@ -19,5 +20,5 @@ class Base extends Model {
 
     public function selectReadConnection($intermediate, $bindParams, $bindTypes) {
         return $this->getDI()->get('dbMaster');
-    }
+    } */
 }

@@ -71,6 +71,17 @@ $di->set('dispatcher', function() use ($di) {
 /**
  * 数据库配置
  */
+$di->set('db',function() use ($config){
+    return new \Phalcon\Db\Adapter\Pdo\Mysql(array(
+        "host" => $config->database->host,
+        "username" => $config->database->username,
+        "password" => $config->database->password,
+        "dbname" => $config->database->dbname
+    ));
+});
+
+
+/*
 //写库
 $di->set('dbMaster', function () use ($config) {
     return new DbAdapter(array(
@@ -90,5 +101,14 @@ $di->set('dbSlave', function () use ($config) {
         'password' => $config[$slaveName]['password'],
         'dbname' => $config[$slaveName]['dbname']
     ));
+});
+*/
+
+$di->set('session_component', function(){
+    return new \library\Components\SessionComponent();
+});
+
+$di->set('cookie_component',function(){
+    return new \library\Components\CookieComponent();
 });
 
