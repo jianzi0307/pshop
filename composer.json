@@ -1,0 +1,6 @@
+{
+    "require": {
+	"phpunit/phpunit": "~4.5",
+        "phalcon/incubator": "dev-master"
+    }
+}
