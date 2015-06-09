@@ -14,7 +14,9 @@ use library\SmsLib\ISms;
 use library\SmsLib\ResponseData;
 use library\SmsLib\Sms189\CustomSms;
 use library\SmsLib\Sms189\TemplateSms;
+use library\SmsLib\SmsCloopen\CloopenSms;
 use library\SmsLib\SmsEdmcn\EdmSms;
+use library\SmsLib\SmsEntinfo\EntinfoSms;
 use Phalcon\Exception;
 
 /**
@@ -40,13 +42,23 @@ class SmsProxy implements ISms {
     const _SMSEMD_= 'smsemd';
 
     /**
+     * 漫道科技短信
+     */
+    const _SMSENTINFO_ = 'smsentinfo';
+
+    /**
+     * 容联云通讯
+     */
+    const _SMSCLOOPEN_ = 'smscloopen';
+
+    /**
      * 平台类型
      * @var
      */
     private $smsType;
 
     /**
-     * 使用场景类型 1、用户注册 2、找回密码
+     * 使用场景类型 1、用户注册 2、找回密码 3、...
      * @var
      */
     private $sceneType;
@@ -85,6 +97,7 @@ class SmsProxy implements ISms {
     public function setConf($config) {
         $this->smsConfig = $config;
         $this->smsType = $this->smsConfig['smsType'];
+        unset($this->smsConfig['smsType']);
         switch($this->smsType) {
             case self::_SMS189_CUSTOM_:
                 /*  array(
@@ -132,6 +145,31 @@ class SmsProxy implements ISms {
                 */
                 $this->smsEntity = new EdmSms();
                 $this->smsEntity->setConf($config);
+                break;
+            case self::_SMSENTINFO_:
+                /* array(
+                    'smsType'   => 'smsentinfo',
+                    'sn' => 'SDK-BBX-010-22217',
+                    'password' => '13022',
+                    'ext' => '',
+                    'rrid' => '',
+                    'stime' => '',
+                    'appName' => '多美淘'
+                )*/
+                $this->smsEntity = new EntinfoSms();
+                $this->smsEntity->setConf($config);
+                break;
+            case self:_SMSCLOOPEN_:
+                  /* array(
+                        'account_sid' => '8a48b5514dd25566014dd776124a0429',
+                        'account_token' => '4eb09d93e6a346128dfb59670cae009c',
+                        'app_id' => '8a48b5514dd25566014dd7765524042b',
+                        'is_sandbox' => true,
+                        'template_id' => 1
+                    )
+                   */
+                  $this->smsEntity = new CloopenSms();
+                  $this->smsEntity->setConf($config);
                 break;
             default:
                 throw new Exception("不存在的短信平台类型");

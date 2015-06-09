@@ -54,6 +54,8 @@ class EntinfoSms extends BaseSms{
     }
 
     public function send($mobile,$message = null,$sceneType = 1) {
+        parent::send($mobile,$message,$sceneType);
+
         $flag = 0;
         $argv = array(
             //替换成您自己的序列号
@@ -63,7 +65,7 @@ class EntinfoSms extends BaseSms{
             //手机号 多个用英文的逗号隔开 post理论没有长度限制.推荐群发一次小于等于10000个手机号
             'mobile'=>"{$mobile}",
             //短信内容
-            'content'=>urlencode( "{$message}[$this->_appName]"),
+            'content'=>urlencode( "{$this->message}[$this->_appName]"),
             //扩展码
             'ext'=>$this->_ext,
             //唯一标识，默认空 如果空返回系统生成的标识串,如果传值保证值唯一,成功则返回传入的值
@@ -107,13 +109,11 @@ class EntinfoSms extends BaseSms{
                 // echo $line;
             }
         }
-        //<string xmlns="http://tempuri.org/">-5</string>
         $line = str_replace("<string xmlns=\"http://tempuri.org/\">","",$line);
         $line = str_replace("</string>","",$line);
-        $result = explode("-",$line);
-
-        $this->response->code =  count( $result ) > 1 ? 1 : 0;
-        $this->response->message = $this->response->code == 0 ? '发送成功' : '发送失败';
+        //$result = explode("-",$line);
+        $this->response->code =  $line > 1 ? 0 : $line;
+        $this->response->message = $this->response->code == 0 ? '发送成功' : ErrorCode::$_ERROR_NO_[$this->response->code];
         $this->response->data = null;
         return $this->response;
     }

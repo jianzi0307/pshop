@@ -14,12 +14,30 @@ namespace apps\admin\controllers;
 
 use apps\admin\models\AppAdmin;
 use library\EncryptLib\Rsa;
+use library\SmsLib\SmsCloopen\CloopenSms;
 use library\SmsLib\SmsEntinfo\EntinfoSms;
 use library\TimeUtil;
 
 class LoginController extends ControllerBase {
 
     public function indexAction() {}
+
+    public function sms1Action() {
+        $sms = new CloopenSms();
+        $sms->setConf(
+            array(
+                'account_sid' => '8a48b5514dd25566014dd776124a0429',
+                'account_token' => '4eb09d93e6a346128dfb59670cae009c',
+                'app_id' => '8a48b5514dd25566014dd7765524042b',
+                'is_sandbox' => true,
+                'template_id' => 1,
+                'body_type' => 'xml'
+            )
+        );
+        $response = $sms->send(18853002966,array($sms->createSmsCode(),'2'));
+        var_dump($response);
+        $this->view->disable();
+    }
 
     public function smsAction() {
         $sms = new EntinfoSms();
@@ -31,7 +49,8 @@ class LoginController extends ControllerBase {
             'stime' => '',
             'appName' => '多美淘'
         ));
-        $res = $sms->send('18853002966','hellow');
+        $res = $sms->send('18853002966','hello333w');
+        print_r($res);exit;
         $this->view->disable();
     }
 

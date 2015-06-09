@@ -10,6 +10,7 @@
  */
 
 namespace library\SmsLib;
+use Phalcon\Exception;
 
 /**
  * Class BaseSms

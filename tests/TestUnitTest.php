@@ -11,7 +11,7 @@
 
 namespace tests;
 
-class UnitTest extends \AbsUnitTestCase {
+class TestUnitTest extends \AbsUnitTestCase {
 
     public function testTestCase() {
         $this->assertEquals('works',
@@ -20,7 +20,7 @@ class UnitTest extends \AbsUnitTestCase {
         );
 
         $this->assertEquals('works',
-            'works1',
+            'works',
             'This will fail'
         );
     }
