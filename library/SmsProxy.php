@@ -10,6 +10,8 @@
  */
 
 namespace library;
+
+use library\CacheLib\FileCache;
 use library\SmsLib\ISms;
 use library\SmsLib\ResponseData;
 use library\SmsLib\Sms189\CustomSms;
@@ -186,6 +188,7 @@ class SmsProxy implements ISms {
      */
     public function send($mobile,$message = null,$sceneType = 0) {
         $response = new ResponseData();
+        $c = new FileCache();
         //验证手机格式
         if (!preg_match('/^1[\d]{10}$/', $mobile)){
             $response->code = ResponseData::__MOBILE_ERROR__;
@@ -195,7 +198,7 @@ class SmsProxy implements ISms {
         }
         $cacheId = $this->cacheSmsPrefix.$mobile.'_'.$sceneType;
         //短信频繁度验证避免浪费短信包同一号码30秒只能发1次
-        $verifySms = json_decode(S($cacheId));
+        $verifySms = json_decode($c->get($cacheId));
         if( $verifySms && $verifySms->ctime > time() - 30) {
             $response->code = ResponseData::__REQUEST_ERROR__;
             $response->message = "请求太频繁";
@@ -213,7 +216,7 @@ class SmsProxy implements ISms {
                 'ip' => get_client_ip()
             );
             //发送成功缓存验证码信息，只缓存5分钟
-            S($cacheId,json_encode($jsonAry),300);
+            $c->set($cacheId,json_encode($jsonAry),300);
         }
         return $response;
     }
@@ -261,17 +264,18 @@ class SmsProxy implements ISms {
      */
     public function chkSmsVerify($mobile,$message,$sceneType,$timeout = 120) {
         $cacheId = $this->cacheSmsPrefix.$mobile.'_'.$sceneType;
-        $verifySms = json_decode(S($cacheId));
+        $c = new FileCache();
+        $verifySms = json_decode($c->get($cacheId));
         if( $verifySms ) {
             if( $message == $verifySms->message ) {
                 //验证码超时
                 if($verifySms->ctime + $timeout < time()) {
-                    S($cacheId,null);
+                    $c->delete($cacheId);
                     return false;
                 }
                 //验证通过，销毁缓存的验证码
                 else {
-                    S($cacheId,null);
+                    $c->delete($cacheId);
                     return true;
                 }
             } else {

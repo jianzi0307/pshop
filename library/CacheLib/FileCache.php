@@ -1,5 +1,5 @@
 <?php
-namespace library;
+namespace library\CacheLib;
 
 /**
  * 文件缓存类
@@ -31,7 +31,7 @@ class FileCache {
     public $gc_probality;
     private $basepath;
 
-    public function __construct($path = "cache", $max_path = 100, $max_file = 50000, $gc_probality = 100) {
+    public function __construct($path = "../../cache/data", $max_path = 100, $max_file = 50000, $gc_probality = 100) {
         $this->path = $path;
         $this->max_path = $max_path;
         $this->max_file = $max_file;
@@ -43,7 +43,7 @@ class FileCache {
      * 设置缓存
      *
      * @param string $key 	保存的key,操作数据的唯一标识，不可重复
-     * @param value $val 	数据内容，可以是int/string/array/object/Boolean 其他没测过，如有需求自行测试
+     * @param int|string|array|object|boolean $val 	数据内容，可以是int/string/array/object/Boolean 其他没测过，如有需求自行测试
      * @param int $expired 	过期时间，不设默认为一年
      * @return bool
      */
