@@ -17,7 +17,7 @@ class SmsUnitTest extends \AbsUnitTestCase {
         $smsproxy->setConf(array(
             'smsType' => 'smsentinfo',
             'sn' => 'SDK-BBX-010-22217',
-            'password' => '13022',
+            'password' => '130229',
             'ext' => '',
             'rrid' => '',
             'stime' => '',

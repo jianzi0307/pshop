@@ -213,7 +213,7 @@ class SmsProxy implements ISms {
                 'message' => $this->getSmsCode(),
                 'sceneType' => $this->getSceneType(),
                 'ctime' => $this->getSendTimestamp(),
-                'ip' => get_client_ip()
+                'ip' => HttpClient::getIPaddress()
             );
             //发送成功缓存验证码信息，只缓存5分钟
             $c->set($cacheId,json_encode($jsonAry),300);

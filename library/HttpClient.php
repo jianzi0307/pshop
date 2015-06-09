@@ -34,10 +34,11 @@ class HttpClient {
         $result = curl_exec($curl);
         $info = curl_getinfo($curl);
         curl_close($curl);
-        if ($info['http_code'] == 200)
+        if ($info['http_code'] == 200) {
             return $result;
-        else
+        } else {
             return false;
+        }
     }
 
     /**
@@ -60,10 +61,37 @@ class HttpClient {
         $result = curl_exec($curl);
         $info = curl_getinfo($curl);
         curl_close($curl);
-        if ($info['http_code'] == 200)
+        if ($info['http_code'] == 200) {
             return $result;
-        else
+        } else {
             return false;
+        }
+    }
+
+    /**
+     * 获取客户端IP
+     * @return string
+     */
+    static public function getIPaddress() {
+        $ip_address='';
+        if (isset($_SERVER)){
+            if (isset($_SERVER["HTTP_X_FORWARDED_FOR"])){
+                $ip_address = $_SERVER["HTTP_X_FORWARDED_FOR"];
+            } else if (isset($_SERVER["HTTP_CLIENT_IP"])) {
+                $ip_address = $_SERVER["HTTP_CLIENT_IP"];
+            } else {
+                $ip_address = $_SERVER["REMOTE_ADDR"];
+            }
+        } else {
+            if (getenv("HTTP_X_FORWARDED_FOR")){
+                $ip_address = getenv("HTTP_X_FORWARDED_FOR");
+            } else if (getenv("HTTP_CLIENT_IP")) {
+                $ip_address = getenv("HTTP_CLIENT_IP");
+            } else {
+                $ip_address = getenv("REMOTE_ADDR");
+            }
+        }
+        return $ip_address;
     }
 }
 ?>
