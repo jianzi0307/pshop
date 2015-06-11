@@ -15,6 +15,7 @@ use Phalcon\Mvc\User\Component;
 
 /**
  * session组件
+ * 在phalcon的session基础上做一层封装
  *
  * Class SessionComponent
  * @package library\Components
@@ -28,11 +29,11 @@ class SessionComponent extends Component {
     private $level = 'normal';
 
     /**
-     * 获取配置的前缀
-     * @return string
+     * 设置前缀
+     * @param $pre
      */
-    private function getPre() {
-        return $this->pre;
+    public function setPre($pre) {
+        $this->pre = $pre;
     }
 
     /**
@@ -116,5 +117,13 @@ class SessionComponent extends Component {
             return md5($this->request->getClientAddress());
         }
         return md5($this->request->getClientAddress().$this->request->getUserAgent());
+    }
+
+    /**
+     * 获取配置的前缀
+     * @return string
+     */
+    private function getPre() {
+        return $this->pre;
     }
 }

@@ -18,6 +18,13 @@ use Phalcon\Session\Adapter\Files as SessionAdapter;
 $di = new FactoryDefault();
 
 /**
+ * 全局配置组件
+ */
+$di->set('config',function() use ($config) {
+    return $config;
+});
+
+/**
  * 注册路由器组件
  */
 $di['router'] = function () {
@@ -43,12 +50,12 @@ $di['url'] = function () {
 /**
  * 注册session服务
  */
-$di['session'] = function () {
+/*$di['session'] = function () {
     $session = new SessionAdapter();
     $session->start();
 
     return $session;
-};
+};*/
 
 
 /**

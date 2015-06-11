@@ -57,7 +57,7 @@ class Module implements ModuleDefinitionInterface{
                 ".phtml" => 'volt'
             ));
             return $view;
-        });
+        },false);
 
         /**
          * 安装volt模板引擎
@@ -68,7 +68,7 @@ class Module implements ModuleDefinitionInterface{
                 "compiledPath" =>  __DIR__."/../../cache/volt/"
             ));
             $compiler = $volt->getCompiler();
-            $compiler->addFunction('is_a', 'is_a');
+            //$compiler->addFunction('is_a', 'is_a');
             return $volt;
         }, true);
 

@@ -24,14 +24,12 @@ class CookieComponent extends Component{
     //安全级别
     private $level      = 'normal';
 
-    //获取配置的前缀
-    private function getPre() {
-        return $this->pre;
-    }
-
-    //获取当前的安全级别
-    private function getLevel() {
-        return $this->level;
+    /**
+     * 设置前缀
+     * @param $pre
+     */
+    public function setPre($pre) {
+        $this->pre = $pre;
     }
 
     /**
@@ -135,8 +133,18 @@ class CookieComponent extends Component{
         if($level == 'none') {
             return '';
         } else if($level == 'normal') {
-            return md5(IClient::getIP());
+            return md5($this->request->getClientAddress());
         }
-        return md5(IClient::getIP().$_SERVER["HTTP_USER_AGENT"]);
+        return md5($this->request->getClientAddress().$_SERVER["HTTP_USER_AGENT"]);
+    }
+
+    //获取配置的前缀
+    private function getPre() {
+        return $this->pre;
+    }
+
+    //获取当前的安全级别
+    private function getLevel() {
+        return $this->level;
     }
 }
