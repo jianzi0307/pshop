@@ -17,6 +17,7 @@ use library\SmsLib\ResponseData;
 use library\SmsLib\Sms189\CustomSms;
 use library\SmsLib\Sms189\TemplateSms;
 use library\SmsLib\SmsCloopen\CloopenSms;
+use library\SmsLib\SmsCloopen\CloopenVoiceSms;
 use library\SmsLib\SmsEdmcn\EdmSms;
 use library\SmsLib\SmsEntinfo\EntinfoSms;
 use Phalcon\Exception;
@@ -51,7 +52,12 @@ class SmsProxy implements ISms {
     /**
      * 容联云通讯
      */
-    const _SMSCLOOPEN_ = 'smscloopen';
+    const _SMSCLOOPEN_ = 'sms_cloopen';
+
+    /**
+     * 容联云通讯语音验证码
+     */
+    const _SMSVOICECLOOPEN_ = 'sms_voice_cloopen';
 
     /**
      * 平台类型
@@ -172,6 +178,17 @@ class SmsProxy implements ISms {
                    */
                   $this->smsEntity = new CloopenSms();
                   $this->smsEntity->setConf($config);
+                break;
+            case self::_SMSVOICECLOOPEN_:
+                /* array(
+                        'account_sid' => '8a48b5514dd25566014dd776124a0429',
+                        'account_token' => '4eb09d93e6a346128dfb59670cae009c',
+                        'app_id' => '8a48b5514dd25566014dd7765524042b',
+                        'is_sandbox' => true,
+                    )
+                   */
+                $this->smsEntity = new CloopenVoiceSms();
+                $this->smsEntity->setConf($config);
                 break;
             default:
                 throw new Exception("不存在的短信平台类型");
