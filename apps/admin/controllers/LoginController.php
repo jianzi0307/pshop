@@ -79,7 +79,7 @@ class LoginController extends ControllerBase
                     $this->session_component->setSess('admin_id', $user->id);
                     $this->session_component->setSess('admin_name', $user->adminName);
                     $this->session_component->setSess('admin_pwd', $user->password);
-                    $this->output_success();
+                    $this->outputSuccess();
                 } else {
                     $message = '用户名与密码不匹配';
                 }

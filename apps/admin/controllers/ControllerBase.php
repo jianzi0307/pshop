@@ -8,15 +8,15 @@
  * Time: 15:13
  * ----------------------
  */
-
 namespace apps\admin\controllers;
-
 
 use Phalcon\Mvc\Controller;
 use Phalcon\Mvc\View;
 
-class ControllerBase extends Controller{
-    protected function initialize() {
+class ControllerBase extends Controller
+{
+    protected function initialize()
+    {
         //$this->tag->prependTitle('INVO | ');
         //$this->view->setTemplateBefore('main');
         //$this->view->setTemplateAfter('main');
@@ -25,7 +25,8 @@ class ControllerBase extends Controller{
     /**
      * @param $uri
      */
-    protected function forward( $uri ) {
+    protected function forward($uri)
+    {
         $uriParts = explode('/', $uri);
         $params = array_slice($uriParts, 2);
         return $this->dispatcher->forward(array(
@@ -39,7 +40,8 @@ class ControllerBase extends Controller{
      * 渲染视图
      * @param $view
      */
-    public function render($view) {
+    public function render($view)
+    {
         $config = $this->di->get('config');
         $this->view->pick($config->setting->admin_theme.'/'.$view);
     }
@@ -49,7 +51,8 @@ class ControllerBase extends Controller{
      * @param array $data
      * @return \Phalcon\Http\Response|\Phalcon\Http\ResponseInterface
      */
-    protected function output_success( Array $data = null ) {
+    protected function outputSuccess(array $data = null)
+    {
         return $this->response->setJsonContent(array('errno'=>0,'errmsg'=>'success','data'=>$data));
     }
 
@@ -59,7 +62,8 @@ class ControllerBase extends Controller{
      * @param $errmsg
      * @return \Phalcon\Http\Response|\Phalcon\Http\ResponseInterface
      */
-    protected function output_error($errno,$errmsg)  {
+    protected function outputError($errno, $errmsg)
+    {
         return $this->response->setJsonContent(array("errno"=>$errno,"errmsg"=>$errmsg));
     }
 
@@ -67,7 +71,8 @@ class ControllerBase extends Controller{
      * 非法请求
      * @return \Phalcon\Http\Response|\Phalcon\Http\ResponseInterface
      */
-    protected function illegal() {
+    protected function illegal()
+    {
         return $this->response->setJsonContent(array("errno"=>-1,"errmsg"=>"illegal request!"));
     }
 }
