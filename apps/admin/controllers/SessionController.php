@@ -13,9 +13,11 @@ namespace apps\admin\controllers;
 
 use apps\admin\models\Users;
 
-class SessionController extends ControllerBase{
+class SessionController extends ControllerBase
+{
 
-    public function indexAction() {
+    public function indexAction()
+    {
 //        if(!$this->request->isPost()) {x
 //            $this->tag->setDefault('email', 'demo@phalconphp.com');
 //            $this->tag->setDefault('password', 'phalcon');
@@ -23,7 +25,8 @@ class SessionController extends ControllerBase{
         $this->view->postId = "ssssssssssssssssssssssss";
     }
 
-    public function startAction() {
+    public function startAction()
+    {
 //        if($this->request->isPost()) {
 //            $email = $this->request->getPost('email');
 //            $password = $this->request->getPost('password');
@@ -41,13 +44,15 @@ class SessionController extends ControllerBase{
         return $this->forward('session/index');
     }
 
-    public function endAction() {
+    public function endAction()
+    {
         $this->session->remove('auth');
         $this->flash->success('Goodbye!');
         return $this->forward('index/index');
     }
 
-    private function _registerSession(Users $user) {
+    private function _registerSession(Users $user)
+    {
         $this->session->set('auth', array(
             'id' => $user->id,
             'name' => $user->name

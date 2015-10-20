@@ -20,7 +20,7 @@ $di = new FactoryDefault();
 /**
  * 全局配置组件
  */
-$di->set('config',function() use ($config) {
+$di->set('config', function () use ($config) {
     return $config;
 });
 
@@ -68,17 +68,17 @@ $di->setShared('session', function() {
 /**
  * 注册dispatcher服务
  */
-$di->set('dispatcher', function() use ($di) {
+$di->set('dispatcher', function () use ($di) {
     $dispatcher = new Phalcon\Mvc\Dispatcher();
     $dispatcher->setDefaultNamespace('apps\site\controllers');
     return $dispatcher;
-},true);
+}, true);
 
 
 /**
  * 数据库配置
  */
-$di->set('db',function() use ($config){
+$di->set('db', function () use ($config) {
     return new \Phalcon\Db\Adapter\Pdo\Mysql(array(
         "host" => $config->database->host,
         "username" => $config->database->username,
@@ -111,11 +111,10 @@ $di->set('dbSlave', function () use ($config) {
 });
 */
 
-$di->set('session_component', function(){
+$di->set('session_component', function () {
     return new \library\Components\SessionComponent();
 });
 
-$di->set('cookie_component',function(){
+$di->set('cookie_component', function () {
     return new \library\Components\CookieComponent();
 });
-

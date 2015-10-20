@@ -14,10 +14,13 @@ namespace apps\admin\controllers;
 
 use library\EncryptLib\Rsa;
 use library\SmsLib\SmsCloopen\CloopenSms;
+use library\SmsLib\SmsCloopen\CloopenVoiceSms;
 use library\SmsLib\SmsEntinfo\EntinfoSms;
 
-class TestController extends ControllerBase {
-    public function sms1Action() {
+class TestController extends ControllerBase
+{
+    public function sms1Action()
+    {
         $sms = new CloopenSms();
         $sms->setConf(
             array(
@@ -29,14 +32,32 @@ class TestController extends ControllerBase {
                 'body_type' => 'xml'
             )
         );
-        $response = $sms->send(18853002966,array($sms->createSmsCode(),'2'));
+        $response = $sms->send(18853002966, array($sms->createSmsCode(), '2'));
         var_dump($response);
         $this->view->disable();
     }
 
-    public function smsAction() {
+    public function sms2Action()
+    {
+        $sms = new CloopenVoiceSms();
+        $sms->setConf(
+            array(
+                'account_sid' => '8a48b5514dd25566014dd776124a0429',
+                'account_token' => '4eb09d93e6a346128dfb59670cae009c',
+                'app_id' => '8a48b5514dd25566014dd7765524042b',
+                'is_sandbox' => true,
+                'body_type' => 'json'
+            )
+        );
+        $response = $sms->send(18853002966, $sms->createSmsCode(), 3);
+        var_dump($response);
+        $this->view->disable();
+    }
+
+    public function smsAction()
+    {
         $sms = new EntinfoSms();
-        $sms->setConf( array(
+        $sms->setConf(array(
             'sn' => 'SDK-BBX-010-22217',
             'password' => '13022',
             'ext' => '',
@@ -44,12 +65,14 @@ class TestController extends ControllerBase {
             'stime' => '',
             'appName' => '多美淘'
         ));
-        $res = $sms->send('18853002966','hello333w');
-        print_r($res);exit;
+        $res = $sms->send('18853002966', 'hello333w');
+        print_r($res);
+        exit;
         $this->view->disable();
     }
 
-    public function testAction() {
+    public function testAction()
+    {
         $rsa = new Rsa();
         $privateKey = '-----BEGIN RSA PRIVATE KEY-----
 MIICXAIBAAKBgQC+WiouLXlITohBzGZSAR0vEZOzxg5PgvbX6/etLpP4hUAgIDtj
@@ -74,12 +97,13 @@ l8ywvRBr8WrymdD14wIDAQAB
 -----END PUBLIC KEY-----';
 
 
-        $rsa->setKeys($privateKey,$publicKey);
+        $rsa->setKeys($privateKey, $publicKey);
         $org_data = '原数据';
         $data = $rsa->publicKeyEncode($org_data);
         echo $data.PHP_EOL.PHP_EOL;
         $res= $rsa->decodePublicEncode($data);
-        echo $res;exit;
+        echo $res;
+        exit;
         $this->view->disable();
     }
 }

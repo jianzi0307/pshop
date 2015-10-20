@@ -19,10 +19,6 @@ $application->registerModules(
             'className' => 'apps\api\Module',
             'path' => __DIR__ . '/../apps/api/Module.php'
         ),
-        'selleradmin' => array(
-            'className' => 'apps\selleradmin\Module',
-            'path' => __DIR__ . '/../apps/selleradmin/Module.php'
-        ),
         'site' => array(
             'className' => 'apps\site\Module',
             'path' => __DIR__ . '/../apps/site/Module.php'

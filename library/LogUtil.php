@@ -26,14 +26,16 @@ use Phalcon\Logger\Adapter\File as FileAdapter;
 *       LogUtil::ins()->warn('warn_pay_order.log',$logs);
  * @package library
  */
-class LogUtil {
+class LogUtil
+{
 
     private static $_instance;
 
     private $log_path_tpl = "../backup/logs/%s/%s/%s";
 
-    public static function ins() {
-        if( !(self::$_instance instanceof self) ) {
+    public static function ins()
+    {
+        if (!(self::$_instance instanceof self)) {
             self::$_instance = new self();
         }
         return self::$_instance;
@@ -44,8 +46,9 @@ class LogUtil {
      * @param string $filename 文件名
      * @param array|string $msgs 信息或信息列表
      */
-    public function info( $filename,$msgs ) {
-        $this->write($filename,'info',$msgs);
+    public function info($filename, $msgs)
+    {
+        $this->write($filename, 'info', $msgs);
     }
 
     /**
@@ -53,8 +56,9 @@ class LogUtil {
      * @param string $filename 文件名
      * @param array|string $msgs 信息或信息列表
      */
-    public function error( $filename,$msgs ) {
-        $this->write($filename,'error',$msgs);
+    public function error($filename, $msgs)
+    {
+        $this->write($filename, 'error', $msgs);
     }
 
     /**
@@ -62,8 +66,9 @@ class LogUtil {
      * @param string $filename 文件名
      * @param array|string $msgs 信息或信息列表
      */
-    public function warn( $filename,$msgs ) {
-        $this->write($filename,'warn',$msgs);
+    public function warn($filename, $msgs)
+    {
+        $this->write($filename, 'warn', $msgs);
     }
 
     /**
@@ -72,34 +77,34 @@ class LogUtil {
      * @param $type 类型
      * @param $msgs 信息列表
      */
-    private function write($filename,$type,$msgs) {
-        $dir = sprintf($this->log_path_tpl,$type,date('Ymd'),date('H'));
-
-        $dAry = explode('/',$dir);
+    private function write($filename, $type, $msgs)
+    {
+        $dir = sprintf($this->log_path_tpl, $type, date('Ymd'), date('H'));
+        $dAry = explode('/', $dir);
         $d = '';
-        for( $i = 0,$len = count($dAry);$i<$len;$i++ ) {
+        for ($i = 0, $len = count($dAry); $i < $len; $i++) {
             $d .= $dAry[$i].'/';
-            if(!file_exists($d)) {
-                mkdir($d,0777);
+            if (!file_exists($d)) {
+                mkdir($d, 0777);
             }
         }
         unset($d);
         $logger = new FileAdapter($dir.'/'.$filename);
         $logger->begin();
-        if( is_array($msgs) ) {
-            for($i = 0,$len=count($msgs);$i<$len;$i++) {
-                if($type == 'error') {
+        if (is_array($msgs)) {
+            for ($i = 0, $len=count($msgs); $i<$len; $i++) {
+                if ($type == 'error') {
                     $logger->error($msgs[$i]);
-                } else if($type == 'warn') {
+                } elseif ($type == 'warn') {
                     $logger->warning($msgs[$i]);
                 } else {
                     $logger->info($msgs[$i]);
                 }
             }
         } else {
-            if($type == 'error') {
+            if ($type == 'error') {
                 $logger->error($msgs);
-            } else if($type == 'warn') {
+            } elseif ($type == 'warn') {
                 $logger->warning($msgs);
             } else {
                 $logger->info($msgs);
@@ -108,9 +113,13 @@ class LogUtil {
         $logger->commit();
     }
 
-    private function __construct() {
+    private function __construct()
+    {
         date_default_timezone_set('Asia/Shanghai');
     }
 
-    private function __clone() {}
+    private function __clone()
+    {
+
+    }
 }

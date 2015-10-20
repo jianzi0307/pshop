@@ -25,7 +25,7 @@ try {
     $config = new \Phalcon\Config\Adapter\Ini(__DIR__.'/../config/config.ini');
 
     /**
-     * vendor
+     * Vendor
      */
     include __DIR__ . "/../vendor/autoload.php";
 
@@ -33,16 +33,15 @@ try {
      * 注册加载器
      */
     $loader = new Loader();
-    $loader->registerNamespaces(array(
-            'library' => __DIR__.'/../library/'
-        )
+    $loader->registerNamespaces(
+        array('library' => __DIR__.'/../library/')
     );
     $loader->register();
 
     /**
      * Include services
      */
-    require __DIR__ . '/../config/services.php';
+    include __DIR__ . '/../config/services.php';
 
     /**
      * Handle the request
@@ -52,16 +51,15 @@ try {
     /**
      * Include modules
      */
-    require __DIR__ . '/../config/modules.php';
+    include __DIR__ . '/../config/modules.php';
 
     /**
      * Include routes
      */
-    require __DIR__ . '/../config/routes.php';
+    include __DIR__ . '/../config/routes.php';
 
     echo $application->handle()->getContent();
 
 } catch (Exception $e) {
     echo $e->getMessage();
 }
-

@@ -14,14 +14,14 @@ use library\LogUtil;
 use Phalcon\Logger;
 use Phalcon\Mvc\Controller;
 
-class IndexController extends Controller{
-    public function indexAction() {
+class IndexController extends Controller
+{
+    public function indexAction()
+    {
         echo "site/index/index";
         //测试日志
-        LogUtil::ins()->info('info_pay_order.log','支付成功');
-
-        LogUtil::ins()->error('error_pay_order.log','支付失败');
-
+        LogUtil::ins()->info('info_pay_order.log', '支付成功');
+        LogUtil::ins()->error('error_pay_order.log', '支付失败');
 
         $logs = array(
             'test',
@@ -30,13 +30,15 @@ class IndexController extends Controller{
             'ccccccc',
             'ddddddddd'
         );
-        LogUtil::ins()->warn('warn_pay_order.log',$logs);
-
+        LogUtil::ins()->warn('warn_pay_order.log', $logs);
         $this->view->disable();
     }
 
-    public function testAction() {
-        $ini_file = parse_ini_file('t.ini',true);
-        print_r($ini_file);
+    public function testAction()
+    {
+        print_r($this->request);exit;
+        print_r($_GET);exit;
+        //$ini_file = parse_ini_file('t.ini',true);
+        //print_r($ini_file);
     }
 }
