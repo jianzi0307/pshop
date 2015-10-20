@@ -14,12 +14,12 @@ namespace library\CacheLib;
  *
  * //片段缓存
  * if ($c->startCache('html', 3600)) {  //key, expired
- * 	    任意输出内容
- * 	    $c->endCache();
+ *      //任意输出内容
+ *      $c->endCache();
  * }
  */
-class FileCache {
-
+class FileCache
+{
     //缓存文件存放路径
     public $path;
     //缓存存放目录数
@@ -31,7 +31,8 @@ class FileCache {
     public $gc_probality;
     private $basepath;
 
-    public function __construct($path = "../../cache/data", $max_path = 100, $max_file = 50000, $gc_probality = 100) {
+    public function __construct($path = "../../cache/data", $max_path = 100, $max_file = 50000, $gc_probality = 100)
+    {
         $this->path = $path;
         $this->max_path = $max_path;
         $this->max_file = $max_file;
@@ -41,14 +42,16 @@ class FileCache {
 
     /**
      * 设置缓存
-     *
-     * @param string $key 	保存的key,操作数据的唯一标识，不可重复
-     * @param int|string|array|object|boolean $val 	数据内容，可以是int/string/array/object/Boolean 其他没测过，如有需求自行测试
-     * @param int $expired 	过期时间，不设默认为一年
+     * @param string $key 保存的key,操作数据的唯一标识，不可重复
+     * @param int|string|array|object|boolean $val 数据内容，可以是int/string/array/object/Boolean 其他没测过，如有需求自行测试
+     * @param int $expired 过期时间，不设默认为一年
      * @return bool
      */
-    public function set($key, $val, $expired = 31536000) {
-        if (rand(0, 1000000) < $this->gc_probality) $this->gc();
+    public function set($key, $val, $expired = 31536000)
+    {
+        if (rand(0, 1000000) < $this->gc_probality) {
+            $this->gc();
+        }
         $key = strval($key);
         $cache_file = $this->_getCacheFile($key);
         $data = unserialize(file_get_contents($cache_file));
@@ -61,11 +64,11 @@ class FileCache {
 
     /**
      * 获得保存的缓存
-     *
-     * @param string $key 	key,操作数据的唯一标识
-     * @return null/data
+     * @param $key string $key key,操作数据的唯一标识
+     * @return null
      */
-    public function get($key) {
+    public function get($key)
+    {
         $key = strval($key);
         $cache_file = $this->_getCacheFile($key);
         $val = @file_get_contents($cache_file);
@@ -86,12 +89,12 @@ class FileCache {
     /**
      * 开始片段缓存
      * 必须配合endCache使用
-     *
-     * @param string $key 	保存的key,操作数据的唯一标识，不可重复
-     * @param int $expired 	过期时间，不设默认为一年
+     * @param string $key 保存的key,操作数据的唯一标识，不可重复
+     * @param int $expired 过期时间，不设默认为一年
      * @return bool
      */
-    public function startCache($key, $expired = 31536000) {
+    public function startCache($key, $expired = 31536000)
+    {
         $data = $this->get($key);
         if (!empty($data)) {
             print $data;
@@ -105,10 +108,10 @@ class FileCache {
 
     /**
      * 结束片段缓存
-     *
      * @return bool
      */
-    public function endCache() {
+    public function endCache()
+    {
         $data = ob_get_contents();
         ob_end_clean();
         preg_match("/(.*?)filecache_used::]/is", $data, $key);
@@ -125,11 +128,11 @@ class FileCache {
 
     /**
      * 删除缓存
-     *
-     * @param string $key 	保存的key,操作数据的唯一标识，不可重复
+     * @param string $key 保存的key,操作数据的唯一标识，不可重复
      * @return bool
      */
-    public function delete($key) {
+    public function delete($key)
+    {
         $key = strval($key);
         $cache_file = $this->_getCacheFile($key);
         $data = unserialize(file_get_contents($cache_file));
@@ -149,22 +152,30 @@ class FileCache {
      * @param string $path 缓存目录
      * @return void
      */
-    public function gc($path = null) {
-        if($path === null) $path = $this->basepath;
-        if(($handle = opendir($path)) === false) return;
-        while(($file = readdir($handle)) !== false) {
-            if($file[0] === '.') continue;
+    public function gc($path = null)
+    {
+        if ($path === null) {
+            $path = $this->basepath;
+        }
+        if (($handle = opendir($path)) === false) {
+            return;
+        }
+        while (($file = readdir($handle)) !== false) {
+            if ($file[0] === '.') {
+                continue;
+            }
             $fullPath = $path . DIRECTORY_SEPARATOR . $file;
-            if(is_dir($fullPath)) {
+            if (is_dir($fullPath)) {
                 $this->gc($fullPath);
-            } elseif(@filemtime($fullPath) < time()) {
+            } elseif (@filemtime($fullPath) < time()) {
                 @unlink($fullPath);
             }
         }
         closedir($handle);
     }
 
-    private function _getCacheFile($key) {
+    private function _getCacheFile($key)
+    {
         $hash = $this->hash32($key);
         $path = $this->basepath . $this->_getPathName($hash);
         $file = $path . DIRECTORY_SEPARATOR . $this->_getCacheFileName($hash);
@@ -178,15 +189,18 @@ class FileCache {
         return $file;
     }
 
-    private function _getPathName($hash) {
+    private function _getPathName($hash)
+    {
         return $hash % $this->max_path;
     }
 
-    private function _getCacheFileName($hash) {
+    private function _getCacheFileName($hash)
+    {
         return $hash % $this->max_file;
     }
 
-    private function hash32($str) {
+    private function hash32($str)
+    {
         return crc32($str) >> 16 & 0x7FFFFFFF;
     }
 }

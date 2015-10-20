@@ -6,17 +6,25 @@ namespace library;
  * @example
  *      DocParserFactory::getInstance()->parse($doc);
  */
-class DocParserFactory{
-
+class DocParserFactory
+{
     private static $p;
-    private function DocParserFactory(){
+
+    private function __construct()
+    {
+
     }
 
-    public static function getInstance(){
-        if(self::$p == null){
+    public static function getInstance()
+    {
+        if (self::$p == null) {
             self::$p = new DocParser();
         }
         return self::$p;
     }
 
+    private function __clone()
+    {
+
+    }
 }

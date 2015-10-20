@@ -19,7 +19,8 @@ use library\SmsLib\BaseSms;
  * @see http://docs.yuntongxun.com/index.php/%E6%A8%A1%E6%9D%BF%E7%9F%AD%E4%BF%A1
  * Class CloopenSms
  */
-class CloopenSms extends BaseCloopen {
+class CloopenSms extends BaseCloopen
+{
     //短信模板ID，到短信模板申请页面查看
     private $template_id;
 
@@ -36,8 +37,9 @@ class CloopenSms extends BaseCloopen {
      *   )
      * @throws \Phalcon\Exception
      */
-    public function setConf( $config ) {
-        parent::setConf( $config );
+    public function setConf($config)
+    {
+        parent::setConf($config);
 
         $this->template_id = $config['template_id'];
     }
@@ -49,24 +51,25 @@ class CloopenSms extends BaseCloopen {
      * @param int $sceneType 场景ID
      * @return stdClass|mixed|\SimpleXMLElement
      */
-    public function send($mobile,$message = null,$sceneType = 1) {
-        parent::send($mobile,$message,$sceneType);
+    public function send($mobile, $message = null, $sceneType = 1)
+    {
+        parent::send($mobile, $message, $sceneType);
 
         //主帐号鉴权信息验证，对必选参数进行判空。
         $response = $this->accAuth();
-        if( !empty($response) ){
+        if (!empty($response)) {
             return $response;
         }
         // 拼接请求包体
-        if( $this->body_type == "json" ){
+        if ($this->body_type == "json") {
             $data="";
-            for($i=0;$i<count($message);$i++){
+            for ($i=0; $i<count($message); $i++) {
                 $data = $data. "'".$message[$i]."',";
             }
             $body= "{'to':'$mobile','templateId':'$this->template_id','appId':'$this->app_id','datas':[".$data."]}";
         } else {
             $data="";
-            for($i=0;$i<count($message);$i++){
+            for ($i=0; $i<count($message); $i++) {
                 $data = $data. "<data>".$message[$i]."</data>";
             }
             $body="<TemplateSMS>
@@ -87,15 +90,15 @@ class CloopenSms extends BaseCloopen {
         // 生成包头
         $header = array("Accept:application/$this->body_type","Content-Type:application/$this->body_type;charset=utf-8","Authorization:$authen");
         // 发送请求
-        $result = $this->curl_post($url,$body,$header);
+        $result = $this->curlPost($url, $body, $header);
         //$this->showlog("response body = ".$result);
-        if( $this->body_type == "json" ){//JSON格式
+        if ($this->body_type == "json") {//JSON格式
             $datas = json_decode($result);
         } else { //xml格式
-            $datas = simplexml_load_string(trim($result," \t\n\r"));
+            $datas = simplexml_load_string(trim($result, " \t\n\r"));
         }
         //重新装填数据
-        if( $datas->statusCode == '000000' ) {
+        if ($datas->statusCode == '000000') {
             $this->response->code = 0;
             $this->response->message = ErrorCode::$_ERROR_NO_[(string)$datas->statusCode];
             $this->response->data = $datas->templateSMS;
@@ -111,7 +114,8 @@ class CloopenSms extends BaseCloopen {
      * 获取验证码内容
      * @return mixed
      */
-    public function getSmsCode() {
+    public function getSmsCode()
+    {
         return $this->message[0];
     }
 }

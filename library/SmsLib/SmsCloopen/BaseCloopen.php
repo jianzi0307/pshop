@@ -8,13 +8,12 @@
  * Time: 12:52
  * ----------------------
  */
-
 namespace library\SmsLib\SmsCloopen;
-
 
 use library\SmsLib\BaseSms;
 
-class BaseCloopen extends BaseSms {
+class BaseCloopen extends BaseSms
+{
     //主账户Id,登陆云通讯网站后，可在“控制台-应用”中看到开发者主账号ACCOUNT SID。
     protected $account_sid;
     //主账号Token，登陆云通讯网站后，可在控制台-应用中看到开发者主账号AUTH TOKEN
@@ -40,8 +39,9 @@ class BaseCloopen extends BaseSms {
     //生产环境（用户应用上线使用）
     protected $product_url = 'app.cloopen.com';
 
-    public function setConf( $config ) {
-        parent::setConf( $config );
+    public function setConf($config)
+    {
+        parent::setConf($config);
 
         //设置主帐号
         $this->account_sid = $config['account_sid'];
@@ -57,45 +57,47 @@ class BaseCloopen extends BaseSms {
         $this->body_type = isset($config['body_type']) ? $config['body_type'] : 'json';
     }
 
-    public function send($mobile,$message = null,$sceneType = 1) {
-        parent::send($mobile,$message,$sceneType);
+    public function send($mobile, $message = null, $sceneType = 1)
+    {
+        parent::send($mobile, $message, $sceneType);
     }
 
     /**
      * 主帐号鉴权
      */
-    protected function accAuth() {
-        if( empty( $this->server_ip ) ){
+    protected function accAuth()
+    {
+        if (empty($this->server_ip)) {
             $this->response->code = 172004;
             $this->response->message = ErrorCode::$_ERROR_NO_['172004'];
             $this->response->data = null;
             return $this->response;
         }
-        if( empty($this->server_port) ){
+        if (empty($this->server_port)) {
             $this->response->code = 172005;
             $this->response->message = ErrorCode::$_ERROR_NO_['172005'];
             $this->response->data = null;
             return $this->response;
         }
-        if( empty($this->soft_version) ){
+        if (empty($this->soft_version)) {
             $this->response->code = 172013;
             $this->response->message = ErrorCode::$_ERROR_NO_['172013'];
             $this->response->data = null;
             return $this->response;
         }
-        if( empty($this->account_sid) ){
+        if (empty($this->account_sid)) {
             $this->response->code = 172006;
             $this->response->message = ErrorCode::$_ERROR_NO_['172006'];
             $this->response->data = null;
             return $this->response;
         }
-        if( empty($this->account_token) ){
+        if (empty($this->account_token)) {
             $this->response->code = 172007;
             $this->response->message = ErrorCode::$_ERROR_NO_['172007'];
             $this->response->data = null;
             return $this->response;
         }
-        if( empty($this->app_id) ){
+        if (empty($this->app_id)) {
             $this->response->code = 172012;
             $this->response->message = ErrorCode::$_ERROR_NO_['172012'];
             $this->response->data = null;
@@ -106,23 +108,25 @@ class BaseCloopen extends BaseSms {
     /**
      * 发起HTTPS请求
      */
-    protected function curl_post($url,$data,$header,$post=1) {
+    protected function curlPost($url, $data, $header, $post = 1)
+    {
         //初始化curl
         $ch = curl_init();
         //参数设置
-        $res= curl_setopt ($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt ($ch, CURLOPT_HEADER, 0);
+        $res= curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_POST, $post);
-        if($post)
+        if ($post) {
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch,CURLOPT_HTTPHEADER,$header);
-        $result = curl_exec ($ch);
+        }
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+        $result = curl_exec($ch);
         //连接失败
-        if($result == FALSE){
-            if($this->body_type=='json'){
+        if ($result == false) {
+            if ($this->body_type == 'json') {
                 $result = "{\"statusCode\":\"172001\",\"statusMsg\":\"网络错误\"}";
             } else {
                 $result = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Response><statusCode>172001</statusCode><statusMsg>网络错误</statusMsg></Response>";

@@ -8,11 +8,10 @@
  * Time: 15:01
  * ----------------------
  */
-
 namespace library\WechatLib;
 
-
-class ErrorCode {
+class ErrorCode
+{
 
     /** ------ 系统错误 ----- */
 

@@ -4,7 +4,6 @@ namespace library\SmsLib;
 /**
  * ----------------------
  * ISms.class.php
- * 
  * User: jian0307@icloud.com
  * Date: 2015/4/17
  * Time: 17:35
@@ -14,7 +13,8 @@ namespace library\SmsLib;
 /**
  * 短信接口
  */
-interface ISms{
+interface ISms
+{
     /**
      * 短信平台配置信息
      * @param $config
@@ -28,14 +28,14 @@ interface ISms{
      * @param int $sceneType 场景类型 1注册 2找回密码
      * @return mixed
      */
-    public function send($mobile,$message = null,$sceneType = 1);
+    public function send($mobile, $message = null, $sceneType = 1);
 
     /**
      * 生成验证码
      * @param int $len 长度
      * @return mixed
      */
-    public function createSmsCode( $len = 6 );
+    public function createSmsCode($len = 6);
 
     /**
      * 获取验证码

@@ -25,11 +25,13 @@ use Phalcon\Mvc\User\Component;
  * Class Cache
  * @package library\Components
  */
-Class Cache extends Component {
+class Cache extends Component
+{
     private $Cache = '';
     private $config = '';
 
-    function __construct() {
+    public function __construct()
+    {
         $this->config = $this->di->get('config');
         if (!$this->config->cache->status) {
             return false;
@@ -58,7 +60,8 @@ Class Cache extends Component {
      * @param $key
      * @return bool|mixed
      */
-    public function get($key) {
+    public function get($key)
+    {
         if (!$this->config->cache->status) {
             return false;
         }
@@ -71,7 +74,8 @@ Class Cache extends Component {
      * @param $value
      * @return bool
      */
-    public function set($key, $value) {
+    public function set($key, $value)
+    {
         if (!$this->config->cache->status) {
             return false;
         }
@@ -82,7 +86,8 @@ Class Cache extends Component {
      * 获取状态
      * @return mixed
      */
-    public function getStatus() {
+    public function getStatus()
+    {
         return $this->config->cache->status;
     }
 }

@@ -18,7 +18,8 @@ namespace library\SmsLib\Sms189;
  * @see http://open.189.cn/index.php?m=api&c=index&a=show&id=850
  * @package library\SmsLib\Sms189
  */
-class CustomSms extends BaseSms189 {
+class CustomSms extends BaseSms189
+{
 
     /**
      * 获取信任码地址
@@ -32,7 +33,8 @@ class CustomSms extends BaseSms189 {
      */
     protected $exp_time = 5;
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 
         $this->grant_type = GrantType::CLIENT_CREDENTIALS;
@@ -55,7 +57,8 @@ class CustomSms extends BaseSms189 {
      *       'app_secret'=> 'a0ea9692c603631b05f3a18362ec85e4'
      *   )
      */
-    public function setConf($config) {
+    public function setConf($config)
+    {
         parent::setConf($config);
     }
 
@@ -66,10 +69,11 @@ class CustomSms extends BaseSms189 {
      * @param int $sceneType
      * @return string
      */
-    public function send( $mobile,$message = null,$sceneType = 1) {
-        parent::send($mobile,$message,$sceneType);
+    public function send($mobile, $message = null, $sceneType = 1)
+    {
+        parent::send($mobile, $message, $sceneType);
 
-        $time = date('Y-m-d H:i:s',$this->timestamp);
+        $time = date('Y-m-d H:i:s', $this->timestamp);
         $access_token = $this->getAccessKey();
         $token = $this->getRandcodeToken($access_token);
         $post_data = array(
@@ -80,19 +84,19 @@ class CustomSms extends BaseSms189 {
             'phone'         => $this->mobile,
             'randcode'      => $this->message
         );
-        if(!empty($this->exp_time)) {
+        if (!empty($this->exp_time)) {
             $post_data['exp_time'] = $this->exp_time;
         }
         ksort($post_data);
         $require_str = urldecode(http_build_query($post_data));
-        $post_data['sign'] = rawurlencode(base64_encode(hash_hmac("sha1", $require_str, $this->app_secret, $raw_output=True)));
+        $post_data['sign'] = rawurlencode(base64_encode(hash_hmac("sha1", $require_str, $this->app_secret, $raw_output = true)));
         ksort($post_data);
         $require_str = urldecode(http_build_query($post_data));
-        $response_str = $this->curl_post($this->send_url,$require_str);
+        $response_str = $this->curlPost($this->send_url, $require_str);
         $res = json_decode($response_str);
         //{"res_code":0,"identifier":"Vr1128\","create_at":"1429536601"}
         $this->response->code = $res->res_code;
-        $this->response->message = in_array($res->res_code,ErrorCode::$_ERROR_NO_) ? ErrorCode::$_ERROR_NO_[$res->res_code] : '未知错误';
+        $this->response->message = in_array($res->res_code, ErrorCode::$_ERROR_NO_) ? ErrorCode::$_ERROR_NO_[$res->res_code] : '未知错误';
         $this->response->data = $res;
         return $this->response;
     }
@@ -103,19 +107,20 @@ class CustomSms extends BaseSms189 {
      * @return mixed
      * @see http://open.189.cn/index.php?m=api&c=index&a=show&id=498
      */
-    protected function getRandcodeToken($access_token) {
+    protected function getRandcodeToken($access_token)
+    {
         $get_data = array(
             'app_id' => $this->app_id,
             'access_token' => $access_token,
-            'timestamp' => date('Y-m-d H:i:s',$this->timestamp)
+            'timestamp' => date('Y-m-d H:i:s', $this->timestamp)
         );
         ksort($get_data);
         $request_str = urldecode(http_build_query($get_data));
-        $get_data['sign'] = rawurlencode(base64_encode(hash_hmac("sha1", $request_str, $this->app_secret, $raw_output=True)));
+        $get_data['sign'] = rawurlencode(base64_encode(hash_hmac("sha1", $request_str, $this->app_secret, $raw_output = true)));
         ksort($get_data);
         $request_str = urldecode(http_build_query($get_data));
         $this->randcode_token_url .= '?'.$request_str;
-        $response = $this->curl_get($this->randcode_token_url);
+        $response = $this->curlGet($this->randcode_token_url);
         $resObj = json_decode($response);
         return $resObj->token;
     }

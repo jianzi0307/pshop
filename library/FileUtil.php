@@ -3,37 +3,38 @@ namespace library;
 
 /**
  * 文件工具类
- * 
  * 用法：
  * ===========================================
  * 建立文件夹 建一个a/1/2/3文件夹
- *     FileUtil::createDir('a/1/2/3');  
+ *  FileUtil::createDir('a/1/2/3');
  * 建立文件        在b/1/2/文件夹下面建一个3文件
- *     FileUtil::createFile('b/1/2/3'); 
+ *  FileUtil::createFile('b/1/2/3');
  * 建立文件        在b/1/2/文件夹下面建一个3.txt
- *     FileUtil::createFile('b/1/2/3.txt'); 
+ *     FileUtil::createFile('b/1/2/3.txt');
  * 复制文件夹 建立一个d/e文件夹，把b文件夹下的内容复制进去
- *     FileUtil::copyDir('b','d/e'); 
+ *     FileUtil::copyDir('b','d/e');
  * 复制文件建立一个b/b文件夹，并把b/1/2文件夹中的3.txt文件复制进去
- *     FileUtil::copyFile('b/1/2/3.txt','b/b/3.txt'); 
+ *     FileUtil::copyFile('b/1/2/3.txt','b/b/3.txt');
  * 移动文件夹 建立一个b/c文件夹,并把a文件夹下的内容移动进去，并删除a文件夹
- *     FileUtil::moveDir('a/','b/c');             
- * 移动文件   建立一个b/d文件夹，并把b/1/2中的3.txt移动进去    
- *     FileUtil::moveFile('b/1/2/3.txt','b/d/3.txt'); 
- * 删除文件        删除b/d/3.txt文件                           
- *     FileUtil::unlinkFile('b/d/3.txt');      
- * 删除文件夹 删除d文件夹       
- *     FileUtil::unlinkDir('d');  
- * ===========================================                    
+ *     FileUtil::moveDir('a/','b/c');
+ * 移动文件   建立一个b/d文件夹，并把b/1/2中的3.txt移动进去
+ *     FileUtil::moveFile('b/1/2/3.txt','b/d/3.txt');
+ * 删除文件        删除b/d/3.txt文件
+ *     FileUtil::unlinkFile('b/d/3.txt');
+ * 删除文件夹 删除d文件夹
+ *     FileUtil::unlinkDir('d');
+ * ===========================================
  */
-class FileUtil {
+class FileUtil
+{
     /**
      * 建立文件夹
      *
      * @param string $aimUrl
      * @return viod
      */
-    function createDir($aimUrl) {
+    public function createDir($aimUrl)
+    {
         $aimUrl = str_replace('', '/', $aimUrl);
         $aimDir = '';
         $arr = explode('/', $aimUrl);
@@ -49,12 +50,12 @@ class FileUtil {
 
     /**
      * 建立文件
-     *
-     * @param string $aimUrl 
+     * @param string $aimUrl
      * @param boolean $overWrite 该参数控制是否覆盖原文件
      * @return boolean
      */
-    function createFile($aimUrl, $overWrite = false) {
+    public function createFile($aimUrl, $overWrite = false)
+    {
         if (file_exists($aimUrl) && $overWrite == false) {
             return false;
         } elseif (file_exists($aimUrl) && $overWrite == true) {
@@ -68,13 +69,13 @@ class FileUtil {
 
     /**
      * 移动文件夹
-     *
      * @param string $oldDir
      * @param string $aimDir
      * @param boolean $overWrite 该参数控制是否覆盖原文件
      * @return boolean
      */
-    function moveDir($oldDir, $aimDir, $overWrite = false) {
+    public function moveDir($oldDir, $aimDir, $overWrite = false)
+    {
         $aimDir = str_replace('', '/', $aimDir);
         $aimDir = substr($aimDir, -1) == '/' ? $aimDir : $aimDir . '/';
         $oldDir = str_replace('', '/', $oldDir);
@@ -111,7 +112,8 @@ class FileUtil {
      * @param boolean $overWrite 该参数控制是否覆盖原文件
      * @return boolean
      */
-    function moveFile($fileUrl, $aimUrl, $overWrite = false) {
+    public function moveFile($fileUrl, $aimUrl, $overWrite = false)
+    {
         if (!file_exists($fileUrl)) {
             return false;
         }
@@ -132,7 +134,8 @@ class FileUtil {
      * @param string $aimDir
      * @return boolean
      */
-    function unlinkDir($aimDir) {
+    public function unlinkDir($aimDir)
+    {
         $aimDir = str_replace('', '/', $aimDir);
         $aimDir = substr($aimDir, -1) == '/' ? $aimDir : $aimDir . '/';
         if (!is_dir($aimDir)) {
@@ -159,7 +162,8 @@ class FileUtil {
      * @param string $aimUrl
      * @return boolean
      */
-    function unlinkFile($aimUrl) {
+    public function unlinkFile($aimUrl)
+    {
         if (file_exists($aimUrl)) {
             unlink($aimUrl);
             return true;
@@ -176,7 +180,8 @@ class FileUtil {
      * @param boolean $overWrite 该参数控制是否覆盖原文件
      * @return boolean
      */
-    function copyDir($oldDir, $aimDir, $overWrite = false) {
+    public function copyDir($oldDir, $aimDir, $overWrite = false)
+    {
         $aimDir = str_replace('', '/', $aimDir);
         $aimDir = substr($aimDir, -1) == '/' ? $aimDir : $aimDir . '/';
         $oldDir = str_replace('', '/', $oldDir);
@@ -209,7 +214,8 @@ class FileUtil {
      * @param boolean $overWrite 该参数控制是否覆盖原文件
      * @return boolean
      */
-    function copyFile($fileUrl, $aimUrl, $overWrite = false) {
+    public function copyFile($fileUrl, $aimUrl, $overWrite = false)
+    {
         if (!file_exists($fileUrl)) {
             return false;
         }
@@ -223,61 +229,94 @@ class FileUtil {
         copy($fileUrl, $aimUrl);
         return true;
     }
-	
-	
-	//列出文件和目录
-	function getFileList($directory) {        
-		$files = array();        
-		try {        
-			$dir = new \DirectoryIterator($directory);        
-		} catch (Exception $e) {        
-			throw new Exception($directory . ' is not readable');        
-		}        
-		foreach($dir as $file) {        
-			if($file->isDot()) continue;        
-			$files[] = $file->getFileName();        
-		}        
-		return $files;        
-	}  
-	
-	//仅仅列出目录
-	function getDirList($directory){
-		$files = array();        
-		try {        
-			$dir = new \DirectoryIterator($directory);        
-		} catch (Exception $e) {        
-			throw new Exception($directory . ' is not readable');        
-		}        
-		foreach($dir as $file) {        
-			if($file->isDot()) continue;        
-			if($file->isFile()) continue;        
-			$files[] = $file->getFileName();        
-		}        
-		return $files;  
-	}
-	
-	//仅仅列出文件
-	function getOnleFileList($directory){
-		$files = array();        
-		try {        
-			$dir = new \DirectoryIterator($directory);        
-		} catch (Exception $e) {        
-			throw new Exception($directory . ' is not readable');        
-		}        
-		foreach($dir as $file) {        
-			if($file->isDot()) continue;        
-			if($file->isDir()) continue;        
-			$files[] = $file->getFileName();        
-		}        
-		return $files;  
-	}
-	
-	function readFile(){
-	
-	}
-	
-	function writeFile(){
-		
-	}
+
+    /**
+     * 列出文件和目录
+     * @param $directory
+     * @return array
+     * @throws Exception
+     */
+    public function getFileList($directory)
+    {
+        $files = array();
+        try {
+            $dir = new \DirectoryIterator($directory);
+        } catch (Exception $e) {
+            throw new Exception($directory . ' is not readable');
+        }
+        foreach ($dir as $file) {
+            if ($file->isDot()) {
+                continue;
+            }
+            $files[] = $file->getFileName();
+        }
+        return $files;
+    }
+
+    /**
+     * 仅仅列出目录
+     * @param $directory
+     * @return array
+     * @throws Exception
+     */
+    public function getDirList($directory)
+    {
+        $files = array();
+        try {
+            $dir = new \DirectoryIterator($directory);
+        } catch (Exception $e) {
+            throw new Exception($directory . ' is not readable');
+        }
+        foreach ($dir as $file) {
+            if ($file->isDot()) {
+                continue;
+            }
+            if ($file->isFile()) {
+                continue;
+            }
+            $files[] = $file->getFileName();
+        }
+        return $files;
+    }
+
+    /**
+     * 仅仅列出文件
+     * @param $directory
+     * @return array
+     * @throws Exception
+     */
+    public function getOnleFileList($directory)
+    {
+        $files = array();
+        try {
+            $dir = new \DirectoryIterator($directory);
+        } catch (Exception $e) {
+            throw new Exception($directory . ' is not readable');
+        }
+        foreach ($dir as $file) {
+            if ($file->isDot()) {
+                continue;
+            }
+            if ($file->isDir()) {
+                continue;
+            }
+            $files[] = $file->getFileName();
+        }
+        return $files;
+    }
+
+    /**
+     *
+     */
+    public function readFile()
+    {
+
+    }
+
+    /**
+     *
+     */
+    public function writeFile()
+    {
+    }
 }
-?>

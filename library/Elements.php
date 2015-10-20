@@ -1,4 +1,5 @@
 <?php
+namespace library;
 
 use Phalcon\Mvc\User\Component;
 
@@ -7,56 +8,57 @@ use Phalcon\Mvc\User\Component;
  *
  * Helps to build UI elements for the application
  */
-class Elements extends Component {
-    private $_headerMenu = array(
-        'navbar-left' => array(
-            'index' => array(
+class Elements extends Component
+{
+    private $_headerMenu = array (
+        'navbar-left' => array (
+            'index' => array (
                 'caption' => 'Home',
                 'action' => 'index'
             ),
-            'invoices' => array(
+            'invoices' => array (
                 'caption' => 'Invoices',
                 'action' => 'index'
             ),
-            'about' => array(
+            'about' => array (
                 'caption' => 'About',
                 'action' => 'index'
             ),
-            'contact' => array(
+            'contact' => array (
                 'caption' => 'Contact',
                 'action' => 'index'
             ),
         ),
-        'navbar-right' => array(
-            'session' => array(
+        'navbar-right' => array (
+            'session' => array (
                 'caption' => 'Log In/Sign Up',
                 'action' => 'index'
             ),
         )
     );
 
-    private $_tabs = array(
-        'Invoices' => array(
+    private $_tabs = array (
+        'Invoices' => array (
             'controller' => 'invoices',
             'action' => 'index',
             'any' => false
         ),
-        'Companies' => array(
+        'Companies' => array (
             'controller' => 'companies',
             'action' => 'index',
             'any' => true
         ),
-        'Products' => array(
+        'Products' => array (
             'controller' => 'products',
             'action' => 'index',
             'any' => true
         ),
-        'Product Types' => array(
+        'Product Types' => array (
             'controller' => 'producttypes',
             'action' => 'index',
             'any' => true
         ),
-        'Your Profile' => array(
+        'Your Profile' => array (
             'controller' => 'invoices',
             'action' => 'profile',
             'any' => false
@@ -68,7 +70,8 @@ class Elements extends Component {
      *
      * @return string
      */
-    public function getMenu() {
+    public function getMenu()
+    {
         $auth = $this->session->get('auth');
         if ($auth) {
             $this->_headerMenu['navbar-right']['session'] = array(
@@ -100,7 +103,8 @@ class Elements extends Component {
     /**
      * Returns menu tabs
      */
-    public function getTabs() {
+    public function getTabs()
+    {
         $controllerName = $this->view->getControllerName();
         $actionName = $this->view->getActionName();
         echo '<ul class="nav nav-tabs">';

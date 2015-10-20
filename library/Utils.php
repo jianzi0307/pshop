@@ -9,14 +9,16 @@ namespace library;
 
 use library\EncryptLib\Aes;
 
-class Utils {
+class Utils
+{
 
     /**
      * AES加密
      * @param $str 待加密的串
      * @return string
      */
-    static public function aesEncode($str) {
+    public static function aesEncode($str)
+    {
         $aes = Aes::create(C('AES_KEY'));
         return $aes->AESEncryptCtr($str);
     }
@@ -26,7 +28,8 @@ class Utils {
      * @param $str 待解密的串
      * @return string
      */
-    static public function aesDecode($str) {
+    public static function aesDecode($str)
+    {
         $aes = Aes::create(C('AES_KEY'));
         return $aes->AESDecryptCtr($str);
     }
@@ -37,11 +40,12 @@ class Utils {
      *    2015032776489872
      * @return string
      */
-    static public function createOrderNo() {
-        $date = date('Ymd',time());
-        $ary = str_split(substr(uniqid(),7,13),1);
-        $ascii = array_map('ord',$ary);
-        $str = substr(implode(NULL,$ascii),0,8);
+    public static function createOrderNo()
+    {
+        $date = date('Ymd', time());
+        $ary = str_split(substr(uniqid(), 7, 13), 1);
+        $ascii = array_map('ord', $ary);
+        $str = substr(implode(null, $ascii), 0, 8);
         return $date.$str;
     }
 
@@ -51,12 +55,13 @@ class Utils {
      *    20150327112321 76489872
      * @return string
      */
-    static public function createOrderMergeNo() {
-        $date = date('YmdHis',time());
-        $ary = str_split(uniqid(),1);//substr(uniqid(),5,13),1);
-        $ascii = array_map('ord',$ary);
-        $sign = implode(NULL,$ascii);
-  		$str = substr($sign,-5);
+    public static function createOrderMergeNo()
+    {
+        $date = date('YmdHis', time());
+        $ary = str_split(uniqid(), 1);//substr(uniqid(),5,13),1);
+        $ascii = array_map('ord', $ary);
+        $sign = implode(null, $ascii);
+        $str = substr($sign, -5);
         return $date.$str;
     }
 
@@ -68,12 +73,13 @@ class Utils {
      * @param mixed $data 响应数据
      * @param string $type 响应数据格式类型
      */
-    static public function response($code=0,$errmsg='ok',$data = null,$type='json') {
-        $base = array('errno'=>$code,'errmsg'=>$errmsg);
-        $data = array_merge($base,array("data"=>$data));
-        switch($type) {
+    public static function response($code = 0, $errmsg = 'ok', $data = null, $type = 'json')
+    {
+        $base = array('errno' => $code, 'errmsg' => $errmsg);
+        $data = array_merge($base, array("data" => $data));
+        switch ($type) {
             case 'xml':
-                echo xml_encode($data,'root');
+                echo xml_encode($data, 'root');
                 break;
             case 'json':
             default:
@@ -88,9 +94,10 @@ class Utils {
      * @param $massage 日志内容
      * @return int
      */
-    static public function log($logPath,$massage) {
-        $log = "执行日期：".date('Y-m-d H:i:s',time()).PHP_EOL.$massage.PHP_EOL.PHP_EOL;
-        return file_put_contents(sprintf($logPath,date('Y-m-d',time())),$log,FILE_APPEND);
+    public static function log($logPath, $massage)
+    {
+        $log = "执行日期：".date('Y-m-d H:i:s', time()).PHP_EOL.$massage.PHP_EOL.PHP_EOL;
+        return file_put_contents(sprintf($logPath, date('Y-m-d', time())), $log, FILE_APPEND);
     }
 
     /**
@@ -100,7 +107,8 @@ class Utils {
      * @param bool $htmlspecialchars
      * @return string
      */
-    static public function getSafeText($textString, $htmlspecialchars=true) {
+    public static function getSafeText($textString, $htmlspecialchars = true)
+    {
         return $htmlspecialchars
             ? htmlspecialchars(trim(strip_tags(self::qj2bj($textString))))
             : trim(strip_tags(self::qj2bj($textString)))
@@ -113,8 +121,9 @@ class Utils {
      * @param string $string
      * @return string
      */
-    public static function qj2bj($string) {
-        $convert_table = Array(
+    public static function qj2bj($string)
+    {
+        $convert_table = array (
             '０' => '0','１' => '1','２' => '2','３' => '3','４' => '4',
             '５' => '5','６' => '6','７' => '7','８' => '8','９' => '9',
             'Ａ' => 'A','Ｂ' => 'B','Ｃ' => 'C','Ｄ' => 'D','Ｅ' => 'E',
@@ -139,9 +148,10 @@ class Utils {
      * @param $str
      * @return mixed
      */
-    static public function clearHtml($str) {
+    public static function clearHtml($str)
+    {
         $preg = "/<\/?[^>]+>/i";
-        $str = preg_replace($preg,'',$str);
+        $str = preg_replace($preg, '', $str);
         return $str;
     }
 
@@ -151,8 +161,9 @@ class Utils {
      * @param $params
      * @return bool|mixed
      */
-    static public function getCurl($url,$params = null) {
-        return HttpClient::post($url,$params);
+    public static function getCurl($url, $params = null)
+    {
+        return HttpClient::post($url, $params);
     }
 
     /**
@@ -161,12 +172,12 @@ class Utils {
      * @param bool $multiple  是否上传多张图片
      * @return array  返回缩略图路径名数组
      */
-    static public function uploadImage($files, $rootPath, $thumb = array(), $multiple = FALSE)
+    public static function uploadImage($files, $rootPath, $thumb = array(), $multiple = false)
     {
         $muf = 1.5;  //图片最大尺寸
         $auf = array('jpg', 'gif', 'png', 'jpeg');
         // 图片最大的尺寸不能大于php.ini中设置的尺寸
-        $phpiniMUF = (int)ini_get('upload_max_filesize');
+        $phpiniMUF = (int) ini_get('upload_max_filesize');
         // 计算比较小的值做为最终的限制
         $muf = min($muf, $phpiniMUF);
         $upload = new \Think\Upload(array(
@@ -244,16 +255,19 @@ class Utils {
     /**
      * 图片上传张数和尺寸控制
      */
-    public static function imgNumAndSizeControl(){
+    public static function imgNumAndSizeControl()
+    {
 
-        if(count($_FILES['goods_img']['name']) > 5){
+        if (count($_FILES['goods_img']['name']) > 5) {
             $result = array('result'=>false,'data'=>'','message'=> '最多上传五张图！');
-            echo json_encode($result);exit();
+            echo json_encode($result);
+            exit();
         }
-        foreach($_FILES['goods_img']['size'] as $size){
-            if ($size >= 1.5 * 1024 *1024){
+        foreach ($_FILES['goods_img']['size'] as $size) {
+            if ($size >= 1.5 * 1024 *1024) {
                 $result = array('result'=>false,'data'=>'','message'=> '图片最大不能超过1.5M！');
-                echo json_encode($result);exit();
+                echo json_encode($result);
+                exit();
             }
         }
     }

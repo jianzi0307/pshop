@@ -1,6 +1,4 @@
 <?php
-namespace library\SmsLib\SmsCloopen;
-
 /**
  * ----------------------
  * CloopenVoiceSms.php
@@ -10,8 +8,9 @@ namespace library\SmsLib\SmsCloopen;
  * Time: 15:27
  * ----------------------
  */
-use library\SmsLib\BaseSms;
+namespace library\SmsLib\SmsCloopen;
 
+use library\SmsLib\BaseSms;
 
 /**
  * 容联*云通讯语音标准验证码接口
@@ -19,7 +18,8 @@ use library\SmsLib\BaseSms;
  * @see http://www.yuntongxun.com/activity/smsIdentifying#tiyan
  * Class CloopenVoiceSms
  */
-class CloopenVoiceSms extends BaseCloopen {
+class CloopenVoiceSms extends BaseCloopen
+{
     //播放次数，1－3次
     private $playTimes = 3;
     //语音验证码状态通知回调地址，云通讯平台将向该Url地址发送呼叫结果通知
@@ -35,7 +35,8 @@ class CloopenVoiceSms extends BaseCloopen {
     //显示主叫号码，显示权限由服务侧控制。
     private $displayNum;
 
-    public function setConf( $config ) {
+    public function setConf($config)
+    {
         parent::setConf($config);
 
         $this->playTimes = isset($config['playTimes']) ? $config['playTimes'] : 3;
@@ -44,7 +45,6 @@ class CloopenVoiceSms extends BaseCloopen {
         $this->userData = isset($config['userData']) ? $config['userData'] : null;
         $this->welcomePrompt = isset($config['welcomePrompt']) ? $config['welcomePrompt'] : null;
         $this->playVerifyCode = isset($config['playVerifyCode']) ? $config['playVerifyCode'] : null;
-
     }
 
     /**
@@ -54,14 +54,15 @@ class CloopenVoiceSms extends BaseCloopen {
      * @param int $sceneType 场景类型
      * @return mixed|null|\SimpleXMLElement
      */
-    public function send($mobile,$message = null,$sceneType = 1) {
+    public function send($mobile, $message = null, $sceneType = 1)
+    {
         //主帐号鉴权信息验证，对必选参数进行判空。
         $auth = $this->accAuth();
-        if($auth!=""){
+        if ($auth != "") {
             return $auth;
         }
         // 拼接请求包体
-        if($this->body_type =="json"){
+        if ($this->body_type == "json") {
             $bodyAry = array(
                 'appId'=>$this->app_id,
                 'verifyCode'=>$message,
@@ -75,7 +76,7 @@ class CloopenVoiceSms extends BaseCloopen {
                 'playVerifyCode' => $this->playVerifyCode
             );
             $body = json_encode($bodyAry);
-        }else{
+        } else {
             $body="<VoiceVerify>
                     <appId>$this->app_id</appId>
                     <verifyCode>$message</verifyCode>
@@ -91,21 +92,19 @@ class CloopenVoiceSms extends BaseCloopen {
         }
         // 大写的sig参数
         $sig =  strtoupper(md5($this->account_sid . $this->account_token . $this->timestamp_));
-        // 生成请求URL  
+        // 生成请求URL
         $url="https://$this->server_ip:$this->server_port/$this->soft_version/Accounts/$this->account_sid/Calls/VoiceVerify?sig=$sig";
         // 生成授权：主帐户Id + 英文冒号 + 时间戳。
         $authen = base64_encode($this->account_sid . ":" . $this->timestamp_);
-        // 生成包头  
+        // 生成包头
         $header = array("Accept:application/$this->body_type","Content-Type:application/$this->body_type;charset=utf-8","Authorization:$authen");
         // 发送请求
-        $result = $this->curl_post($url,$body,$header);
-        if($this->body_type=="json"){//JSON格式
+        $result = $this->curl_post($url, $body, $header);
+        if ($this->body_type=="json") {//JSON格式
             $datas=json_decode($result);
-        }else{ //xml格式
-            $datas = simplexml_load_string(trim($result," \t\n\r"));
+        } else { //xml格式
+            $datas = simplexml_load_string(trim($result, " \t\n\r"));
         }
         return $datas;
     }
-
 }
-?>

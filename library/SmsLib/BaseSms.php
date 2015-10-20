@@ -8,15 +8,16 @@
  * Time: 10:11
  * ----------------------
  */
-
 namespace library\SmsLib;
+
 use Phalcon\Exception;
 
 /**
  * Class BaseSms
  * @package library\SmsLib
  */
-class BaseSms implements ISms {
+class BaseSms implements ISms
+{
 
     /**
      * 手机号
@@ -48,7 +49,8 @@ class BaseSms implements ISms {
      */
     protected $response = null;
 
-    public function __construct() {
+    public function __construct()
+    {
         date_default_timezone_set('Asia/Shanghai');//设置时区
         $this->timestamp = time();
     }
@@ -58,8 +60,9 @@ class BaseSms implements ISms {
      * @param $config
      * @throws Exception
      */
-    public function setConf($config) {
-        if(empty($config)) {
+    public function setConf($config)
+    {
+        if (empty($config)) {
             throw new Exception("配置错误");
         }
     }
@@ -71,7 +74,8 @@ class BaseSms implements ISms {
      * @param int $sceneType 场景类型
      * @return string
      */
-    public function send($mobile,$message = null,$sceneType = 1) {
+    public function send($mobile, $message = null, $sceneType = 1)
+    {
         $this->mobile = $mobile;
         $this->message = $message ? $message : $this->createSmsCode();
         $this->sceneType = $sceneType;
@@ -83,7 +87,8 @@ class BaseSms implements ISms {
      * @param int $len 默认6位
      * @return string
      */
-    public function createSmsCode($len = 6) {
+    public function createSmsCode($len = 6)
+    {
         $chars = "0123456789";
         $str = "";
         for ($i = 0; $i < $len; $i++) {
@@ -96,7 +101,8 @@ class BaseSms implements ISms {
      * 获取验证码
      * @return string
      */
-    public function getSmsCode() {
+    public function getSmsCode()
+    {
         return $this->message;
     }
 
@@ -104,7 +110,8 @@ class BaseSms implements ISms {
      * 获取发送时间戳
      * $return int
      */
-    public function getSendTimestamp() {
+    public function getSendTimestamp()
+    {
         return $this->timestamp;
     }
 
@@ -112,7 +119,8 @@ class BaseSms implements ISms {
      * 获取场景ID
      * @return int 场景ID
      */
-    public function getSceneType(){
+    public function getSceneType()
+    {
         return $this->sceneType;
     }
 }

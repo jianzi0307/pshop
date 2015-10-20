@@ -8,11 +8,10 @@
  * Time: 20:57
  * ----------------------
  */
-
 namespace library\SmsLib;
 
-
-class ResponseData {
+class ResponseData
+{
     // 成功
     const __OK__ = 0;
     //手机格式错误

@@ -16,12 +16,14 @@ use Phalcon\Mvc\ModuleDefinitionInterface;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 
-class Module implements ModuleDefinitionInterface{
+class Module implements ModuleDefinitionInterface
+{
     /**
      * 为模块注册加载器
      * @param \Phalcon\DiInterface $di
      */
-    public function registerAutoloaders(\Phalcon\DiInterface $di = null){
+    public function registerAutoloaders(\Phalcon\DiInterface $di = null)
+    {
         $moduleLoader = new Loader();
         //注册命名空间
         $moduleLoader->registerNamespaces(
@@ -38,17 +40,17 @@ class Module implements ModuleDefinitionInterface{
      * 为模块注册服务
      * @param \Phalcon\DiInterface $di
      */
-    public function registerServices(\Phalcon\DiInterface $di){
-
+    public function registerServices(\Phalcon\DiInterface $di)
+    {
         //Registering a dispatcher
-        $di->set('dispatcher', function() {
+        $di->set('dispatcher', function () {
             $dispatcher = new Dispatcher();
             $dispatcher->setDefaultNamespace('apps\admin\controllers');
             return $dispatcher;
         });
 
         //注册视图服务组件
-        $di->set('view', function() {
+        $di->set('view', function () {
             $view = new View();
             $view->setViewsDir(__DIR__ . '/views/default/');
             $view->setLayoutsDir('layouts/');
@@ -57,12 +59,12 @@ class Module implements ModuleDefinitionInterface{
                 ".phtml" => 'volt'
             ));
             return $view;
-        },false);
+        }, false);
 
         /**
          * 安装volt模板引擎
          */
-        $di->set('volt', function($view, $di) {
+        $di->set('volt', function ($view, $di) {
             $volt = new VoltEngine($view, $di);
             $volt->setOptions(array(
                 "compiledPath" =>  __DIR__."/../../cache/volt/"
@@ -71,6 +73,5 @@ class Module implements ModuleDefinitionInterface{
             //$compiler->addFunction('is_a', 'is_a');
             return $volt;
         }, true);
-
     }
 }

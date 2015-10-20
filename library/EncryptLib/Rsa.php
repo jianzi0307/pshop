@@ -14,8 +14,8 @@ namespace library\EncryptLib;
 /**
  * RSA 公钥 私钥加密 解密
  */
-class Rsa {
-
+class Rsa
+{
     private $_config;
 
     /**
@@ -23,8 +23,9 @@ class Rsa {
      * @param $privateKey 私有密钥
      * @param $publicKey 公有密钥
      */
-    public function setKeys($privateKey,$publicKey) {
-        if( !isset($this->_config) || empty($this->_config) ) {
+    public function setKeys($privateKey, $publicKey)
+    {
+        if (!isset($this->_config) || empty($this->_config)) {
             $this->_config = array();
         }
         $this->_config['private_key'] = $privateKey;
@@ -36,7 +37,8 @@ class Rsa {
      * @param string $data 要加密的数据
      * @return string 加密后的字符串
      */
-    public function privateKeyEncode($data) {
+    public function privateKeyEncode($data)
+    {
         $encrypted = '';
         $this->_needKey(2);
         $private_key = openssl_pkey_get_private($this->_config['private_key']);
@@ -54,7 +56,8 @@ class Rsa {
      * @param string $data 要加密的数据
      * @return string 加密后的字符串
      */
-    public function publicKeyEncode($data) {
+    public function publicKeyEncode($data)
+    {
         $encrypted = '';
         $this->_needKey(1);
         $public_key = openssl_pkey_get_public($this->_config['public_key']);
@@ -72,13 +75,14 @@ class Rsa {
      * @param string $data 要解密的数据
      * @return string 解密后的字符串
      */
-    public function decodePrivateEncode($data) {
+    public function decodePrivateEncode($data)
+    {
         $decrypted = '';
         $this->_needKey(1);
         $public_key = openssl_pkey_get_public($this->_config['public_key']);
         $array_data = $this->_toArray($data);//数据base64_decode 后 反序列化成数组
         $str = '';
-        foreach ($array_data as $value){
+        foreach ($array_data as $value) {
             openssl_public_decrypt($value, $decrypted, $public_key); //私钥加密的内容通过公钥可用解密出来
             $str .= $decrypted;//对数组中的每个元素解密 并拼接
         }
@@ -90,13 +94,14 @@ class Rsa {
      * @param string $data  要解密的数据
      * @return string 解密后的字符串
      */
-    public function decodePublicEncode($data) {
+    public function decodePublicEncode($data)
+    {
         $decrypted = '';
         $this->_needKey(2);
         $private_key = openssl_pkey_get_private($this->_config['private_key']);
         $array_data = $this->_toArray($data);
         $str = '';
-        foreach ($array_data as $value){
+        foreach ($array_data as $value) {
             openssl_private_decrypt($value, $decrypted, $private_key); //私钥解密
             $str .= $decrypted;
         }
@@ -109,7 +114,8 @@ class Rsa {
      * @return int 1
      * @throws Exception
      */
-    private function _needKey($type) {
+    private function _needKey($type)
+    {
         switch ($type) {
             case 1:
                 if (empty($this->_config['public_key'])) {
@@ -130,7 +136,8 @@ class Rsa {
      * @param type $data
      * @return type
      */
-    private function _splitEncode($data) {
+    private function _splitEncode($data)
+    {
         $data = base64_encode($data); //加上base_64 encode  便于用于 分组
         $total_lenth = strlen($data);
         $per = 96;// 能整除2 和 3 RSA每次加密不能超过100个
@@ -148,13 +155,13 @@ class Rsa {
      * @return mixed
      * @throws Exception
      */
-    private  function _toArray($data){
+    private function _toArray($data)
+    {
         $data = base64_decode($data);
         $array_data = unserialize($data);
-        if(!is_array($array_data)){
+        if (!is_array($array_data)) {
             throw new Exception('数据加密不符');
         }
         return $array_data;
     }
-
 }

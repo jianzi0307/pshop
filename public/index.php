@@ -34,7 +34,10 @@ try {
      */
     $loader = new Loader();
     $loader->registerNamespaces(
-        array('library' => __DIR__.'/../library/')
+        array(
+            'library' => __DIR__.'/../library/',
+            'Phalcon' => __DIR__.'/vendor/phalcon/incubator/Library/Phalcon/'
+        )
     );
     $loader->register();
 

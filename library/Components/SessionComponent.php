@@ -20,8 +20,8 @@ use Phalcon\Mvc\User\Component;
  * Class SessionComponent
  * @package library\Components
  */
-class SessionComponent extends Component {
-
+class SessionComponent extends Component
+{
     //session前缀
     private $pre = 'shop_';
 
@@ -32,7 +32,8 @@ class SessionComponent extends Component {
      * 设置前缀
      * @param $pre
      */
-    public function setPre($pre) {
+    public function setPre($pre)
+    {
         $this->pre = $pre;
     }
 
@@ -40,7 +41,8 @@ class SessionComponent extends Component {
      * 获取当前的安全级别
      * @return string
      */
-    public function getLevel() {
+    public function getLevel()
+    {
         return $this->level;
     }
 
@@ -49,11 +51,12 @@ class SessionComponent extends Component {
      * @param $name
      * @param string $value
      */
-    public function setSess( $name,$value='' ) {
-        if($this->checkSafe() == -1) {
-            $this->session->set($this->getPre().'safecode',$this->sessionId());
+    public function setSess($name, $value = '')
+    {
+        if ($this->checkSafe() == -1) {
+            $this->session->set($this->getPre().'safecode', $this->sessionId());
         }
-        $this->session->set($this->getPre().$name,$value);
+        $this->session->set($this->getPre().$name, $value);
     }
 
     /**
@@ -61,11 +64,12 @@ class SessionComponent extends Component {
      * @param $name
      * @return mixed|null
      */
-    public function get( $name ) {
+    public function get($name)
+    {
         $is_checked = $this->checkSafe();
-        if($is_checked == 1) {
+        if ($is_checked == 1) {
             return $this->session->has($this->pre.$name) ? $this->session->get($this->pre.$name) : null;
-        } else if( $is_checked == 0 ) {
+        } elseif ($is_checked == 0) {
             $this->clear($this->pre.'safecode');
         }
         return null;
@@ -75,7 +79,8 @@ class SessionComponent extends Component {
      * 清空某一个Session
      * @param $name
      */
-    public function clear( $name ) {
+    public function clear($name)
+    {
         $this->pre = $this->getPre();
         $this->session->remove($this->pre.$name);
     }
@@ -84,7 +89,8 @@ class SessionComponent extends Component {
      * 清空所有Session
      * @return bool
      */
-    public function clearAll() {
+    public function clearAll()
+    {
         return $this->session->destroy();
     }
 
@@ -92,10 +98,11 @@ class SessionComponent extends Component {
      * Session的安全验证
      * @return int
      */
-    public function checkSafe() {
+    public function checkSafe()
+    {
         $this->pre = $this->getPre();
-        if( $this->session->has($this->pre.'safecode') ) {
-            if( $this->session->get($this->pre.'safecode') == $this->sessionId() ) {
+        if ($this->session->has($this->pre.'safecode')) {
+            if ($this->session->get($this->pre.'safecode') == $this->sessionId()) {
                 return 1;
             } else {
                 return 0;
@@ -109,11 +116,12 @@ class SessionComponent extends Component {
      * 得到session的安全码
      * @return string
      */
-    public function sessionId() {
+    public function sessionId()
+    {
         $level = $this->getLevel();
-        if($level == 'none') {
+        if ($level == 'none') {
             return '';
-        } else if($level == 'normal') {
+        } else if ($level == 'normal') {
             return md5($this->request->getClientAddress());
         }
         return md5($this->request->getClientAddress().$this->request->getUserAgent());
@@ -123,7 +131,8 @@ class SessionComponent extends Component {
      * 获取配置的前缀
      * @return string
      */
-    private function getPre() {
+    private function getPre()
+    {
         return $this->pre;
     }
 }

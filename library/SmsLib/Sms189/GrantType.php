@@ -17,7 +17,8 @@ namespace library\SmsLib\Sms189;
  * @see http://open.189.cn/index.php?m=content&c=index&a=lists&catid=62
  * @package library\SmsLib\Sms189
  */
-class GrantType {
+class GrantType
+{
     /**
      * AC授权模式
      */
