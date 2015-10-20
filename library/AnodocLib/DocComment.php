@@ -5,60 +5,69 @@ namespace library\AnodocLib;
 use library\AnodocLib\Collection\TagGroup;
 use library\AnodocLib\Collection\TagGroupCollection;
 
-class DocComment {
+class DocComment
+{
+    private $description;
+    private $tags;
 
-  private $description, $tags;
-
-  function __construct($description = '', TagGroupCollection $tags = null) {
-    if (!$tags) {
-      $tags = new TagGroupCollection;
+    public function __construct($description = '', TagGroupCollection $tags = null)
+    {
+        if (!$tags) {
+            $tags = new TagGroupCollection;
+        }
+        $this->description = $description;
+        foreach ($tags as $tag => $value) {
+            $this->tags[$tag]= $value;
+        }
     }
-    $this->description = $description;
-    foreach ($tags as $tag => $value) {
-      $this->tags[$tag]= $value;
+
+    public function getDescription()
+    {
+        return $this->description;
     }
-  }
 
-  function getDescription() {
-    return $this->description;
-  }
-
-  function getShortDescription() {
-    if (preg_match('/^(.+)\n/', $this->description, $matches)) {
-      return $matches[1];
+    public function getShortDescription()
+    {
+        if (preg_match('/^(.+)\n/', $this->description, $matches)) {
+            return $matches[1];
+        }
+        return $this->description;
     }
-    return $this->description;
-  }
 
-  function getLongDescription() {
-    if ($longDescription = preg_replace('/^.+\n/', '', $this->description)) {
-      return $longDescription != $this->description ?
-        trim($longDescription) : '';
+    public function getLongDescription()
+    {
+        if ($longDescription = preg_replace('/^.+\n/', '', $this->description)) {
+            return $longDescription != $this->description ?
+                trim($longDescription) : '';
+        }
     }
-  }
 
-  function getTags($tag) {
-    if ($this->hasTag($tag)) {
-      return $this->tags[$tag];
+    public function getTags($tag)
+    {
+        if ($this->hasTag($tag)) {
+            return $this->tags[$tag];
+        }
+        return new TagGroup($tag);
     }
-    return new TagGroup($tag);
-  }
 
-  function getTag($tag) {
-    if ($this->hasTag($tag)) {
-      return $this->tags[$tag][$this->tags[$tag]->count() -1];
+    public function getTag($tag)
+    {
+        if ($this->hasTag($tag)) {
+            return $this->tags[$tag][$this->tags[$tag]->count() -1];
+        }
+        return new Tags\NullTag('', '');
     }
-    return new Tags\NullTag('', '');
-  }
 
-  function getTagValue($tag) {
-    if ($this->hasTag($tag)) {
-      $last = $this->tags[$tag][$this->tags[$tag]->count() -1];
-      return $last->getValue();
+    public function getTagValue($tag)
+    {
+        if ($this->hasTag($tag)) {
+            $last = $this->tags[$tag][$this->tags[$tag]->count() -1];
+            return $last->getValue();
+        }
     }
-  }
 
-  function hasTag($tag) {
-    return isset($this->tags[$tag]);
-  }
+    public function hasTag($tag)
+    {
+        return isset($this->tags[$tag]);
+    }
 }

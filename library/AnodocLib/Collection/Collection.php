@@ -1,80 +1,94 @@
 <?php
-
 namespace library\AnodocLib\Collection;
 
-class Collection implements \ArrayAccess, \Countable, \SeekableIterator {
+class Collection implements \ArrayAccess, \Countable, \SeekableIterator
+{
+    private $store = array();
 
-  private $store = array();
-
-  function __construct(array $array = array()) {
-    $this->store = array_merge($this->store, $array);
-  }
-
-  function offsetExists($key) {
-    return isset($this->store[$key]);
-  }
-
-  function offsetGet($key) {
-    return $this->store[$key];
-  }
-
-  function offsetSet($key, $value) {
-    if (is_null($key)) {
-      $this->store[] = $value;
-    } else {
-      $this->store[$key] = $value;
+    public function __construct(array $array = array())
+    {
+        $this->store = array_merge($this->store, $array);
     }
-  }
 
-  function isKeySet($key) {
-    return $this->offsetExists($key);
-  }
-
-  function offsetUnset($key) {
-    unset($this->store[$key]);
-  }
-
-  function seek($position) {
-    if (isset($this->store[$position])) {
-      return $this->store[$position];
+    public function offsetExists($key)
+    {
+        return isset($this->store[$key]);
     }
-    throw new \OutOfBoundsException("Invalid seek position ($position)");
-  }
 
-  function length() {
-    return $this->count();
-  }
+    public function offsetGet($key)
+    {
+        return $this->store[$key];
+    }
 
-  function get($key) {
-    return $this->offsetGet($key);
-  }
+    public function offsetSet($key, $value)
+    {
+        if (is_null($key)) {
+            $this->store[] = $value;
+        } else {
+            $this->store[$key] = $value;
+        }
+    }
 
-  function count() {
-    return count($this->store);
-  }
+    public function isKeySet($key)
+    {
+        return $this->offsetExists($key);
+    }
 
-  function rewind() {
-    reset($this->store);
-  }
+    public function offsetUnset($key)
+    {
+        unset($this->store[$key]);
+    }
 
-  function current() {
-    return current($this->store);
-  }
+    public function seek($position)
+    {
+        if (isset($this->store[$position])) {
+            return $this->store[$position];
+        }
+        throw new \OutOfBoundsException("Invalid seek position ($position)");
+    }
 
-  function key() {
-    return key($this->store);
-  }
+    public function length()
+    {
+        return $this->count();
+    }
 
-  function next() {
-    next($this->store);
-  }
+    public function get($key)
+    {
+        return $this->offsetGet($key);
+    }
 
-  function valid() {
-    return key($this->store) !== null;
-  }
+    public function count()
+    {
+        return count($this->store);
+    }
 
-  function isEmpty() {
-    return empty($this->store);
-  }
+    public function rewind()
+    {
+        reset($this->store);
+    }
 
+    public function current()
+    {
+        return current($this->store);
+    }
+
+    public function key()
+    {
+        return key($this->store);
+    }
+
+    public function next()
+    {
+        next($this->store);
+    }
+
+    public function valid()
+    {
+        return key($this->store) !== null;
+    }
+
+    public function isEmpty()
+    {
+        return empty($this->store);
+    }
 }

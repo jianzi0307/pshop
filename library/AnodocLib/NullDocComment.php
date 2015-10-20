@@ -2,14 +2,26 @@
 
 namespace library\AnodocLib;
 
-class NullDocComment extends DocComment {
+class NullDocComment extends DocComment
+{
 
-  function __construct() {}
+    public function __construct()
+    {
 
-  function getDescription() {}
+    }
 
-  function getShortDescription() {}
+    public function getDescription()
+    {
 
-  function getLongDescription() {}
+    }
 
+    public function getShortDescription()
+    {
+
+    }
+
+    public function getLongDescription()
+    {
+
+    }
 }

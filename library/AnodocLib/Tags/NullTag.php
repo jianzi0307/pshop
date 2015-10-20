@@ -2,17 +2,30 @@
 
 namespace library\AnodocLib\Tags;
 
-class NullTag extends Tag {
+class NullTag extends Tag
+{
+    public function __construct($tag_name, $value)
+    {
 
-  function __construct($tag_name, $value) {}
+    }
 
-  function getValue() {}
+    public function getValue()
+    {
 
-  function getTagName() {}
+    }
 
-  function __toString() {}
+    public function getTagName()
+    {
 
-  function isNull() {
-    return true;
-  }
+    }
+
+    public function __toString()
+    {
+        return 'NullTag';
+    }
+
+    public function isNull()
+    {
+        return true;
+    }
 }

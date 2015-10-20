@@ -2,25 +2,29 @@
 
 namespace library\AnodocLib\Tags;
 
-class GenericTag extends Tag {
+class GenericTag extends Tag
+{
+    private $tag_name;
+    private $value;
 
-    private $tag_name, $value;
-
-    function __construct($tag_name, $value) {
+    public function __construct($tag_name, $value)
+    {
         $this->value = $value;
         $this->tag_name = $tag_name;
     }
 
-    public function getValue() {
+    public function getValue()
+    {
         return $this->value;
     }
 
-    function getTagName() {
+    public function getTagName()
+    {
         return $this->tag_name;
     }
 
-    function __toString() {
+    public function __toString()
+    {
         return (string) $this->value;
     }
-
 }

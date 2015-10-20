@@ -1,19 +1,18 @@
 <?php
-
 namespace library\AnodocLib\Tags;
 
-abstract class Tag {
+abstract class Tag
+{
+    abstract public function __construct($tag_name, $value);
 
-  abstract function __construct($tag_name, $value);
+    abstract public function getValue();
 
-  abstract function getValue();
+    abstract public function getTagName();
 
-  abstract function getTagName();
+    abstract public function __toString();
 
-  abstract function __toString();
-
-  function isNull() {
-    return false;
-  }
-
+    public function isNull()
+    {
+        return false;
+    }
 }
