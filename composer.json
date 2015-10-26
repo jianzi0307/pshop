@@ -1,6 +1,8 @@
 {
     "require": {
 	    "phpunit/phpunit": "~4.5",
-        "phalcon/incubator": "dev-master"
+        "phalcon/incubator": "dev-master",
+        "gregwar/captcha": "1.*",
+        "gigablah/sphinxphp": "2.1.x-dev"
     }
 }

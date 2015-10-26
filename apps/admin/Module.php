@@ -50,9 +50,10 @@ class Module implements ModuleDefinitionInterface
         });
 
         //注册视图服务组件
-        $di->set('view', function () {
+        $di->set('view', function () use ($di) {
+            $admin_theme = $di['config']->setting->admin_theme;
             $view = new View();
-            $view->setViewsDir(__DIR__ . '/views/default/');
+            $view->setViewsDir(__DIR__ . '/views/'. $admin_theme .'/');
             $view->setLayoutsDir('layouts/');
             $view->setTemplateAfter('main');
             $view->registerEngines(array(
