@@ -1,2 +1,2 @@
 # pshop
-基于phalcon框架的app应用框架
+基于phalcon的应用基础框架，用于app应用快速开发
