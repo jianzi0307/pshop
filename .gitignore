@@ -2,3 +2,5 @@ vendor/*
 .idea
 .idea/*
 .idea/vcs.xml
+cache/*
+backup/logs/*
